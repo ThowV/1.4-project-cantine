@@ -1,3 +1,5 @@
+package kantine;
+
 public class Datum {
 
 	private int dag;

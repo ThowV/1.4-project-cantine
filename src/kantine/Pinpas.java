@@ -1,3 +1,5 @@
+package kantine;
+
 public class Pinpas extends Betaalwijze {
 
     private double kredietlimiet;
