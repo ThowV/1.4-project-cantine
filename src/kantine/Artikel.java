@@ -8,12 +8,13 @@ public class Artikel {
     private BigDecimal prijs;
 
     public Artikel(String naam, BigDecimal prijs) {
+        setPrijs(prijs);
+
         this.naam = naam;
-        this.prijs = prijs;
     }
 
     public Artikel() {
-        this("NAAMLOOS", new BigDecimal(0.00));
+        this("NAAMLOOS", new BigDecimal(0).setScale(2));
     }
 
     public String getNaam() {
@@ -29,6 +30,13 @@ public class Artikel {
     }
 
     public void setPrijs(BigDecimal prijs) {
-        this.prijs = prijs;
+        if(prijs.scale() == 2)
+            this.prijs = prijs;
+        else
+            throw new IllegalArgumentException("De scale van de BigDecimal prijs dient 2 te zijn.");
+    }
+
+    public String toString() {
+        return "naam: " + getNaam() + ", prijs: " + getPrijs().toString();
     }
 }
