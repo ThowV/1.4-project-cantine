@@ -43,12 +43,12 @@ public class Datum {
         if(dag >= 1 && maand >= 1 && maand <= 12 && jaar >= 1900 && jaar =< 2100) {
             //Kijk of het gegeven jaar een schrikkeljaar is
             if(jaar % 4 == 0)
-                dagInMaand[1] = februari[1];
+                dagInMaand.put(2, februari[1]);
             else
-                dagInMaand[1] = februari[0];
+                dagInMaand.put(2, februari[0]);
 
             //Kijk of de gegeven dag mogelijk is voor het gegeven jaar
-            if(dag <= dagInMaand[maand]) {
+            if(dag <= dagInMaand.get(maand)) {
                 return true;
             }
         }
