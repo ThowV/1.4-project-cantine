@@ -7,20 +7,7 @@ public class Datum {
     private int jaar;
 
     private int[] februari = {28, 29};
-    private HashMap<int, int> dagInMaand = HashMap.of(
-            1, 31,
-            2, februari[0],
-            3, 31,
-            4, 30,
-            5, 31,
-            6, 30,
-            7, 31,
-            8, 31,
-            9, 30,
-            10, 31,
-            11, 30,
-            12, 31
-    );
+    private int[] dagInMaand = {31, februari[0], 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 
 
     public Datum() {
@@ -40,15 +27,20 @@ public class Datum {
 
     public boolean bestaatDatum(int dag, int maand, int jaar) {
         //Kijk of de gegeven datum binnen de randvoorwaarden ligt
-        if(dag >= 1 && maand >= 1 && maand <= 12 && jaar >= 1900 && jaar =< 2100) {
+        if(dag >= 1 && maand >= 1 && maand <= 12 && jaar >= 1900 && jaar <= 2100) {
             //Kijk of het gegeven jaar een schrikkeljaar is
             if(jaar % 4 == 0)
-                dagInMaand.put(2, februari[1]);
+                if(jaar % 100 != 0 || jaar % 400 == 0)
+                    dagInMaand[1] = februari[1]; //Schrikkeljaar
+                else if(jaar % 100 != 0 && jaar % 400 != 0)
+                    dagInMaand[1] = februari[1]; //Schrikkeljaar
+                else
+                    dagInMaand[1] = februari[0]; //Geen schrikkeljaar
             else
-                dagInMaand.put(2, februari[0]);
+                dagInMaand[1] = februari[0]; //Geen schrikkeljaar
 
             //Kijk of de gegeven dag mogelijk is voor het gegeven jaar
-            if(dag <= dagInMaand.get(maand)) {
+            if(dag <= dagInMaand[maand - 1]) {
                 return true;
             }
         }
