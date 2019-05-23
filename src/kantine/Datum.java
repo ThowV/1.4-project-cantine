@@ -29,15 +29,7 @@ public class Datum {
         //Kijk of de gegeven datum binnen de randvoorwaarden ligt
         if(dag >= 1 && maand >= 1 && maand <= 12 && jaar >= 1900 && jaar <= 2100) {
             //Kijk of het gegeven jaar een schrikkeljaar is
-            if(jaar % 4 == 0)
-                if(jaar % 100 != 0 || jaar % 400 == 0)
-                    dagInMaand[1] = februari[1]; //Schrikkeljaar
-                else if(jaar % 100 != 0 && jaar % 400 != 0)
-                    dagInMaand[1] = februari[1]; //Schrikkeljaar
-                else
-                    dagInMaand[1] = februari[0]; //Geen schrikkeljaar
-            else
-                dagInMaand[1] = februari[0]; //Geen schrikkeljaar
+            regelSchrikkeljaar(jaar);
 
             //Kijk of de gegeven dag mogelijk is voor het gegeven jaar
             if(dag <= dagInMaand[maand - 1]) {
@@ -46,6 +38,23 @@ public class Datum {
         }
 
         return false;
+    }
+
+    /**
+     * Kijkt of het gegeven jaar een schrikkeljaar is
+     * @param jaar Het gegeven jaar
+     */
+    private void regelSchrikkeljaar(int jaar) {
+        if(jaar % 4 == 0)
+            if(jaar % 100 == 0)
+                if(jaar % 400 == 0)
+                    dagInMaand[1] = februari[1]; //Schrikkeljaar
+                else
+                    dagInMaand[1] = februari[0]; //Geen schrikkeljaar
+            else
+                dagInMaand[1] = februari[1]; //Schrikkeljaar
+        else
+            dagInMaand[1] = februari[0]; //Geen schrikkeljaar
     }
 
     /**
