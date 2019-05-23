@@ -1,17 +1,28 @@
 package kantine;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Stack;
 
 public class Dienblad {
+
     private ArrayList<Artikel> artikelen;
+    private Persoon klant;
 
     /**
      * Constructor
      */
     public Dienblad() {
-        // method body omitted
+        artikelen = new ArrayList<>();
+    }
+
+    /**
+     * Constructor
+     * @param klant De klant waarvan het dienblad is.
+     */
+    public Dienblad(Persoon klant) {
+        this();
+
+        this.klant = klant;
     }
 
     /**
@@ -20,7 +31,7 @@ public class Dienblad {
      * @param artikel
      */
     public void voegToe(Artikel artikel) {
-        // method body omitted
+        artikelen.add(artikel);
     }
 
     /**
@@ -29,7 +40,7 @@ public class Dienblad {
      * @return Het aantal artikelen
      */
     public int getAantalArtikelen() {
-        // method body omitted
+        return artikelen.size();
     }
 
     /**
@@ -38,8 +49,32 @@ public class Dienblad {
      *
      * @return De totaalprijs
      */
-    public double getTotaalPrijs() {
-        // method body omitted
+    public BigDecimal getTotaalPrijs() {
+        BigDecimal sum = new BigDecimal(0).setScale(2);
+
+        for (Artikel artikel: artikelen) {
+            sum.add(artikel.getPrijs());
+        }
+
+        return sum;
+    }
+
+    /**
+     * Methode om de klant terugtegeven wie dit dienblad gebruikt.
+     *
+     * @return De klant die dit dienblad gebruikt.
+     */
+    public Persoon getKlant() {
+        return klant;
+    }
+
+    /**
+     * Set de klant die dit dienblad gebruikt.
+     *
+     * @param klant De klant die dit dienblad gebruikt.
+     */
+    public void setKlant(Persoon klant) {
+        this.klant = klant;
     }
 }
 

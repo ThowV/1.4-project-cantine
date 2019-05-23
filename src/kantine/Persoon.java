@@ -11,6 +11,14 @@ public class Persoon {
 
     private char geslacht;
 
+    /**
+     * Constructor
+     * @param bsn Burger Service Nummer
+     * @param voornaam Voornaam
+     * @param achternaam Achternaam
+     * @param geboorteDatum De geboortedatum van dit persoon
+     * @param geslacht Het geslacht van deze persoon als: 'm', 'v' of 'o'
+     */
     public Persoon(String bsn, String voornaam, String achternaam, Datum geboorteDatum, char geslacht) {
         setBurgerServiceNummer(bsn);
         setGeslacht(geslacht);
@@ -20,14 +28,25 @@ public class Persoon {
         this.geboorteDatum = geboorteDatum;
     }
 
+    /**
+     * Constructor dat een leeg Persoon maakt.
+     */
     public Persoon() {
         this("00000000", "VOORNAAM", "ACHTERNAAM", new Datum(), 'o');
     }
 
+    /**
+     * @return Geeft het BSN terug van deze persoon.
+     */
     public String getBurgerServiceNummer() {
         return burgerServiceNummer;
     }
 
+    /**
+     * Zet de BSN van deze persoon.
+     *
+     * @param burgerServiceNummer Burger Service Nummer
+     */
     public void setBurgerServiceNummer(String burgerServiceNummer) {
         if(isValidBurgerServiceNummer(burgerServiceNummer))
             this.burgerServiceNummer = burgerServiceNummer;
@@ -35,6 +54,12 @@ public class Persoon {
             throw new IllegalArgumentException("Het BurgerServiceNummer mag enkel uit 8-9 cijfers bestaan en voldoen aan de 11-proef.");
     }
 
+    /**
+     * Checkt of een BSN geldig is.
+     *
+     * @param burgerServiceNummer Burger Service Nummer
+     * @return true als het een geldig BSN is.
+     */
     public static boolean isValidBurgerServiceNummer(String burgerServiceNummer) {
         if(burgerServiceNummer.matches("[0-9]+") && (burgerServiceNummer.length() == 8 || burgerServiceNummer.length() == 9)) {
             var bsn = burgerServiceNummer.toCharArray();
@@ -59,30 +84,57 @@ public class Persoon {
         return false;
     }
 
+    /**
+     * @return Geeft de voornaam terug van deze persoon.
+     */
     public String getVoornaam() {
         return voornaam;
     }
 
+    /**
+     * Zet de voornaam van deze persoon.
+     *
+     * @param voornaam De nieuwe voornaam voor deze persoon.
+     */
     public void setVoornaam(String voornaam) {
         this.voornaam = voornaam;
     }
 
+    /**
+     * @return Geeft de achternaam van deze persoon terug.
+     */
     public String getAchternaam() {
         return achternaam;
     }
 
+    /**
+     * Zet de achternaam van deze persoon.
+     *
+     * @param achternaam De nieuwe achternaam voor deze persoon.
+     */
     public void setAchternaam(String achternaam) {
         this.achternaam = achternaam;
     }
 
+    /**
+     * @return Geeft de geboortedatum van deze persoon terug.
+     */
     public String getGeboorteDatum() {
         return geboorteDatum.getDatumAsString();
     }
 
+    /**
+     * Zet de gebootedatum van deze persoon.
+     *
+     * @param geboorteDatum De nieuwe geboortedatum voor deze persoon.
+     */
     public void setGeboorteDatum(Datum geboorteDatum) {
         this.geboorteDatum = geboorteDatum;
     }
 
+    /**
+     * @return Geeft het geslacht van deze persoon als een 'm', 'v' of een 'o'
+     */
     public String getGeslacht() {
         switch(geslacht) {
             case 'm':
@@ -94,6 +146,11 @@ public class Persoon {
         }
     }
 
+    /**
+     * Zet het geslacht voor deze persoon
+     *
+     * @param geslacht De enige valide opties zijn: 'm', 'v' of een 'o'
+     */
     public void setGeslacht(char geslacht) {
         var geslacht_lowercase = Character.toLowerCase(geslacht);
 
@@ -103,6 +160,9 @@ public class Persoon {
             this.geslacht = 'o';
     }
 
+    /**
+     * @return Een string met informatie over deze persoon.
+     */
     public String toString() {
         return "bsn: " + getBurgerServiceNummer()
                 + ", voornaam: " + getVoornaam()
