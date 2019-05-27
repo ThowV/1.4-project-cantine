@@ -1,12 +1,16 @@
 package kantine;
 
+import java.math.BigDecimal;
+
 public class Kassa {
+    private int aantalArtikelen;
+    private BigDecimal hoeveelheidGeldInKassa;
 
     /**
      * Constructor
      */
     public Kassa(KassaRij kassarij) {
-        // method body omitted
+        hoeveelheidGeldInKassa = new BigDecimal(0).setScale(2);
     }
 
     /**
@@ -18,17 +22,20 @@ public class Kassa {
      * @param klant die moet afrekenen
      */
     public void rekenAf(Dienblad klant) {
-        // method body omitted
+        if(klant.getAantalArtikelen() > 0) {
+            aantalArtikelen += klant.getAantalArtikelen();
+            hoeveelheidGeldInKassa.add(klant.getTotaalPrijs());
+        }
     }
 
     /**
      * Geeft het aantal artikelen dat de kassa heeft gepasseerd,
-     * vanaf het moment dat de methode resetWaarden is aangeroepen.
+     * vanaf het moment dat de methode resetKassa is aangeroepen.
      *
      * @return aantal artikelen
      */
-    public int aantalArtikelen() {
-        // method body omitted
+    public int getAantalArtikelen() {
+        return aantalArtikelen;
     }
 
     /**
@@ -38,8 +45,8 @@ public class Kassa {
      *
      * @return hoeveelheid geld in de kassa
      */
-    public double hoeveelheidGeldInKassa() {
-        // method body omitted
+    public BigDecimal getHoeveelheidGeldInKassa() {
+        return hoeveelheidGeldInKassa;
     }
 
     /**
@@ -48,5 +55,8 @@ public class Kassa {
      */
     public void resetKassa() {
         // method body omitted
+        aantalArtikelen = 0;
+        hoeveelheidGeldInKassa = BigDecimal.ZERO;
+        hoeveelheidGeldInKassa = new BigDecimal(0).setScale(2);
     }
 }
