@@ -25,7 +25,7 @@ public class Datum {
     }
 
 
-    public boolean bestaatDatum(int dag, int maand, int jaar) {
+    public boolean bestaatDatum() {
         //Kijk of de gegeven datum binnen de randvoorwaarden ligt
         if(dag >= 1 && maand >= 1 && maand <= 12 && jaar >= 1900 && jaar <= 2100) {
             //Kijk of het gegeven jaar een schrikkeljaar is
