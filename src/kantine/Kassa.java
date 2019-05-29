@@ -56,7 +56,6 @@ public class Kassa {
     public void resetKassa() {
         // method body omitted
         aantalArtikelen = 0;
-        hoeveelheidGeldInKassa = BigDecimal.ZERO;
         hoeveelheidGeldInKassa = new BigDecimal(0).setScale(2);
     }
 }
