@@ -1,5 +1,7 @@
 package kantine;
 
+import java.math.BigDecimal;
+
 public class Kantine {
 
     private Kassa kassa;
@@ -20,15 +22,24 @@ public class Kantine {
      * Persoon zich aan bij de rij voor de kassa.
      */
     public void loopPakSluitAan() {
-        // method body omitted
+        //Maak een persoon en een dienblad.
+        Persoon persoon = new Persoon("181905589", "Voornaam", "Achternaam", new Datum(7, 10, 2000), 'm');
+        Dienblad dienblad = new Dienblad(persoon);
+
+        //2 Artikelen toevoegem
+        dienblad.voegToe(new Artikel("Banaan", new BigDecimal(1.29).setScale(2)));
+        dienblad.voegToe(new Artikel("Cake", new BigDecimal(2.25).setScale(2)));
+
+        //Voeg de persoon toe aan de rij voor de kassa
+        kassarij.sluitAchteraan(dienblad);
     }
 
     /**
      * Deze methode handelt de rij voor de kassa af.
      */
     public void verwerkRijVoorKassa() {
-        while() {
-            // omitted
+        while(kassarij.erIsEenRij()) {
+            kassa.rekenAf(kassarij.eerstePersoonInRij());
         }
     }
 
@@ -37,8 +48,8 @@ public class Kantine {
      *
      * @return hoeveelheid geld in kassa
      */
-    public double hoeveelheidGeldInKassa() {
-       // method body omitted
+    public BigDecimal hoeveelheidGeldInKassa() {
+       return kassa.getHoeveelheidGeldInKassa();
     }
 
     /**
@@ -47,7 +58,7 @@ public class Kantine {
      * @return het aantal gepasseerde artikelen
      */
     public int aantalArtikelen() {
-        // method body omitted
+        return kassa.getAantalArtikelen();
     }
 
     /**
@@ -55,6 +66,6 @@ public class Kantine {
      * het aantal artikelen en "leegt" de inhoud van de kassa.
      */
     public void resetKassa() {
-        // method body omitted
+        kassa.resetKassa();
     }
 }
