@@ -10,7 +10,7 @@ public class Kassa {
      * Constructor
      */
     public Kassa(KassaRij kassarij) {
-        hoeveelheidGeldInKassa = new BigDecimal(0).setScale(2);
+        hoeveelheidGeldInKassa = Geld.genereerPrijs(0);
     }
 
     /**
@@ -22,7 +22,7 @@ public class Kassa {
     public void rekenAf(Dienblad klant) {
         var artikelenIterator = klant.getArtikelenIterator();
 
-        var totaalPrijs = new BigDecimal(0).setScale(2, BigDecimal.ROUND_HALF_EVEN);
+        var totaalPrijs = Geld.genereerPrijs(0);
 
         while(artikelenIterator.hasNext()) {
             var artikel = artikelenIterator.next();
@@ -62,6 +62,6 @@ public class Kassa {
     public void resetKassa() {
         // method body omitted
         aantalArtikelen = 0;
-        hoeveelheidGeldInKassa = new BigDecimal(0).setScale(2, BigDecimal.ROUND_HALF_EVEN);
+        hoeveelheidGeldInKassa = Geld.genereerPrijs(0);
     }
 }

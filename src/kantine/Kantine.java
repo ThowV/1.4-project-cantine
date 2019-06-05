@@ -15,11 +15,11 @@ public class Kantine {
         kassarij = new KassaRij();
         kassa = new Kassa(kassarij);
         kantineAanbod = new KantineAanbod(
-                new String[]{ "banaan", "appel", "peer" },
+                new String[]{ "Banaan", "Appel", "Peer" },
                 new BigDecimal[]{
-                        new BigDecimal(1.29).setScale(2, BigDecimal.ROUND_HALF_EVEN)
-                        new BigDecimal(2.10).setScale(2, BigDecimal.ROUND_HALF_EVEN)
-                        new BigDecimal(0.80).setScale(2, BigDecimal.ROUND_HALF_EVEN)
+                        Geld.genereerPrijs(1.29),
+                        Geld.genereerPrijs(2.10),
+                        Geld.genereerPrijs(0.80),
                     },
                 new int[]{ 23, 21, 42 }
                 );

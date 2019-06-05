@@ -76,7 +76,7 @@ public class KantineAanbod {
             return artikel;
         }
 
-        return null
+        return null;
     }
 
     /**
