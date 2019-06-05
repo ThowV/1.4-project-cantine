@@ -46,11 +46,11 @@ public class KantineAanbod {
 
     	BigDecimal prijs = prijzen.get(productnaam);
 
-        for(int j = huidigeHoeveelheid; j < startAantal; j++) {
-            huidigeAantal.add(new Artikel(productnaam, prijs));
+        for(int j = huidigeAantal; j < startAantal; j++) {
+            huidigeVoorraad.add(new Artikel(productnaam, prijs));
         }
 
-        aanbod.put(productnaam, huidigeAantal);
+        aanbod.put(productnaam, huidigeVoorraad);
     }
     
     /**
@@ -82,7 +82,7 @@ public class KantineAanbod {
     /**
      * Publieke methode om een artikel via naam van de stapel te pakken.
      * Retouneert null als artikel niet bestaat of niet op voorraad is.
-     * @param naam (van artikel)
+     * @param productnaam (van artikel)
      * @return artikel (of null)
      */
     public Artikel getArtikel(String productnaam) {
