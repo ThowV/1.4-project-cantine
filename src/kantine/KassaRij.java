@@ -1,16 +1,15 @@
 package kantine;
-import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class KassaRij {
 
-    private ArrayList<Dienblad> personenInRij;
-
+    private LinkedList<Dienblad> personenInRij;
 
     /**
      * Constructor
      */
     public KassaRij() {
-        personenInRij = new ArrayList<>();
+        personenInRij = new LinkedList<>();
     }
 
     public KassaRij(Dienblad klant) {
@@ -18,7 +17,7 @@ public class KassaRij {
         personenInRij.add(klant);
     }
 
-    public KassaRij(ArrayList<Dienblad> klanten) {
+    public KassaRij(LinkedList<Dienblad> klanten) {
         this();
         personenInRij.addAll(klanten);
     }
