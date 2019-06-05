@@ -14,18 +14,24 @@ public class Kassa {
     }
 
     /**
-     * Vraag het aantal artikelen en de totaalprijs op.
-     * Tel deze gegevens op bij de controletotalen die voor
-     * de kassa worden bijgehouden. De implementatie wordt
-     * later vervangen door een echte betaling door de persoon.
+     * Vraagt het aantal artikelen op een dienblad als iterator en berekend hiermee de totaalprijs,
+     * die vervolgens wordt toegevoegd aan het hoeveelheid geld in de kassa.
      *
-     * @param klant die moet afrekenen
+     * @param klant die moet afrekenen als dienblad
      */
     public void rekenAf(Dienblad klant) {
-        if(klant.getAantalArtikelen() > 0) {
-            aantalArtikelen += klant.getAantalArtikelen();
-            hoeveelheidGeldInKassa = hoeveelheidGeldInKassa.add(klant.getTotaalPrijs());
+        var artikelenIterator = klant.getArtikelenIterator();
+
+        var totaalPrijs = new BigDecimal(0).setScale(2, BigDecimal.ROUND_HALF_EVEN);
+
+        while(artikelenIterator.hasNext()) {
+            var artikel = artikelenIterator.next();
+
+            totaalPrijs = totaalPrijs.add(artikel.getPrijs());
+            aantalArtikelen++;
         }
+
+        hoeveelheidGeldInKassa = hoeveelheidGeldInKassa.add(totaalPrijs);
     }
 
     /**
@@ -39,7 +45,7 @@ public class Kassa {
     }
 
     /**
-     * Geeft het totaalbedrag van alle artikelen die de kass
+     * Geeft het totaalbedrag van alle artikelen die de kassa
      * zijn gepasseerd, vanaf het moment dat de methode
      * resetKassa is aangeroepen.
      *
@@ -56,6 +62,6 @@ public class Kassa {
     public void resetKassa() {
         // method body omitted
         aantalArtikelen = 0;
-        hoeveelheidGeldInKassa = new BigDecimal(0).setScale(2);
+        hoeveelheidGeldInKassa = new BigDecimal(0).setScale(2, BigDecimal.ROUND_HALF_EVEN);
     }
 }

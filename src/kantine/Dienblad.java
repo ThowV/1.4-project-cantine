@@ -1,6 +1,6 @@
 package kantine;
 
-import java.math.BigDecimal;
+import java.util.Iterator;
 import java.util.Stack;
 
 public class Dienblad {
@@ -35,28 +35,10 @@ public class Dienblad {
     }
 
     /**
-     * Methode om aantal artikelen op dienblad te tellen
-     *
-     * @return Het aantal artikelen
+     * @return Een iterator voor de artikelen op het Dienblad
      */
-    public int getAantalArtikelen() {
-        return artikelen.size();
-    }
-
-    /**
-     * Methode om de totaalprijs van de artikelen
-     * op dienblad uit te rekenen
-     *
-     * @return De totaalprijs
-     */
-    public BigDecimal getTotaalPrijs() {
-        BigDecimal totaalPrijs = new BigDecimal(0).setScale(2, BigDecimal.ROUND_HALF_EVEN);
-
-        for (Artikel artikel: artikelen) {
-            totaalPrijs = totaalPrijs.add(artikel.getPrijs());
-        }
-
-        return totaalPrijs;
+    public Iterator<Artikel> getArtikelenIterator(){
+        return artikelen.iterator();
     }
 
     /**
