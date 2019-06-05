@@ -61,6 +61,6 @@ public class Artikel {
      * @return Geeft informatie over dit artikel terug als een string.
      */
     public String toString() {
-        return "naam: " + getNaam() + ", prijs: " + getPrijs().toString();
+        return "naam: " + getNaam() + ", prijs: " + getPrijs();
     }
 }

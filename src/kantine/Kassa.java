@@ -24,7 +24,7 @@ public class Kassa {
     public void rekenAf(Dienblad klant) {
         if(klant.getAantalArtikelen() > 0) {
             aantalArtikelen += klant.getAantalArtikelen();
-            hoeveelheidGeldInKassa.add(klant.getTotaalPrijs());
+            hoeveelheidGeldInKassa = hoeveelheidGeldInKassa.add(klant.getTotaalPrijs());
         }
     }
 

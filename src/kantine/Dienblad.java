@@ -50,13 +50,13 @@ public class Dienblad {
      * @return De totaalprijs
      */
     public BigDecimal getTotaalPrijs() {
-        BigDecimal sum = new BigDecimal(0).setScale(2);
+        BigDecimal totaalPrijs = new BigDecimal(0).setScale(2, BigDecimal.ROUND_HALF_EVEN);
 
         for (Artikel artikel: artikelen) {
-            sum.add(artikel.getPrijs());
+            totaalPrijs = totaalPrijs.add(artikel.getPrijs());
         }
 
-        return sum;
+        return totaalPrijs;
     }
 
     /**
