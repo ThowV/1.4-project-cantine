@@ -6,6 +6,7 @@ public class Kantine {
 
     private Kassa kassa;
     private KassaRij kassarij;
+    private KantineAanbod kantineAanbod;
 
     /**
      * Constructor
@@ -13,6 +14,15 @@ public class Kantine {
     public Kantine() {
         kassarij = new KassaRij();
         kassa = new Kassa(kassarij);
+        kantineAanbod = new KantineAanbod(
+                new String[]{ "banaan", "appel", "peer" },
+                new BigDecimal[]{
+                        new BigDecimal(1.29).setScale(2, BigDecimal.ROUND_HALF_EVEN)
+                        new BigDecimal(2.10).setScale(2, BigDecimal.ROUND_HALF_EVEN)
+                        new BigDecimal(0.80).setScale(2, BigDecimal.ROUND_HALF_EVEN)
+                    },
+                new int[]{ 23, 21, 42 }
+                );
     }
 
     /**
@@ -21,14 +31,13 @@ public class Kantine {
      * en plaats deze op het dienblad. Tenslotte sluit de
      * Persoon zich aan bij de rij voor de kassa.
      */
-    public void loopPakSluitAan() {
-        //Maak een persoon en een dienblad.
-        Persoon persoon = new Persoon("181905589", "Voornaam", "Achternaam", new Datum(7, 10, 2000), 'm');
+    public void loopPakSluitAan(Persoon persoon, String[] artikelnamen) {
         Dienblad dienblad = new Dienblad(persoon);
 
-        //2 Artikelen toevoegem
-        dienblad.voegToe(new Artikel("Banaan", new BigDecimal(1.29).setScale(2, BigDecimal.ROUND_HALF_EVEN)));
-        dienblad.voegToe(new Artikel("Cake", new BigDecimal(2.25).setScale(2, BigDecimal.ROUND_HALF_EVEN)));
+        //Voeg elk artikel aan het dienblad toe dat gegeven is
+        for (String artikelnaam : artikelnamen) {
+            dienblad.voegToe(kantineAanbod.getArtikel(artikelnaam));
+        }
 
         //Voeg de persoon toe aan de rij voor de kassa
         kassarij.sluitAchteraan(dienblad);
@@ -48,5 +57,13 @@ public class Kantine {
      */
     public Kassa getKassa(){
         return kassa;
+    }
+
+    public KantineAanbod getKantineAanbod() {
+        return kantineAanbod;
+    }
+
+    public void setKantineAanbod(KantineAanbod kantineAanbod) {
+        this.kantineAanbod = kantineAanbod;
     }
 }
