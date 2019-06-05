@@ -43,6 +43,9 @@ public class Kantine {
         }
     }
 
+    /**
+     * @return Geeft de kassa terug die in de kantine staat.
+     */
     public Kassa getKassa(){
         return kassa;
     }
