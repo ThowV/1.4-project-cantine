@@ -42,18 +42,26 @@ public class Administratie {
      */
     public static BigDecimal[] berekenDagOmzet(BigDecimal[] omzet) {
         BigDecimal[] temp = new BigDecimal[DAYS_IN_WEEK];
+        Arrays.fill(temp, Geld.genereerPrijs(0));
+        int totaalWeekDagen =  0;
 
-        for(int i = 0; i < 7; i++) {
+        /* Oude methode:
+        for(int i = 0; i < DAYS_IN_WEEK; i++) {
             int j = 0;
 
-            while(i + 7 * j < omzet.length) {
-                if(temp[i] == null)
-                    temp[i] = omzet[i + 7 * j];
-                else
-                    temp[i] = temp[i].add(omzet[i + 7 * j]);
-
+            while(i + DAYS_IN_WEEK * j < omzet.length) {
+                temp[i] = temp[i].add(omzet[i + DAYS_IN_WEEK * j]);
                 j++;
             }
+        }
+        */
+
+        for(int i = 0; i < omzet.length; i++) {
+            int dag = i % DAYS_IN_WEEK;
+            temp[dag] = temp[dag].add(omzet[dag + totaalWeekDagen]);
+
+            if(dag == 6)
+                totaalWeekDagen += 7;
         }
 
         return temp;
