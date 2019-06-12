@@ -66,8 +66,8 @@ public class Administratie {
         return temp;
     }
 
-    public static void PrintDagOmzet(BigDecimal[] omzet){
-        var dagOmzet = berekenDagOmzet(omzet);
+    public static void printDagOmzet(BigDecimal[] omzet){
+        BigDecimal[] dagOmzet = berekenDagOmzet(omzet);
 
         System.out.println("Dagomzet: ");
         for (int i = 0; i < dagOmzet.length; i++){
@@ -76,11 +76,11 @@ public class Administratie {
         System.out.println("___________");
     }
 
-    public static void PrintGemiddeldeOmzet(BigDecimal[] omzet){
+    public static void printGemiddeldeOmzet(BigDecimal[] omzet){
         System.out.println("Gemiddelde omzet: " + berekenGemiddeldeOmzet(omzet));
     }
 
-    public static void PrintGemiddeldAantal(int[] aantal){
+    public static void printGemiddeldAantal(int[] aantal){
         System.out.println("Gemiddeld aantal: " + berekenGemiddeldAantal(aantal));
     }
 }

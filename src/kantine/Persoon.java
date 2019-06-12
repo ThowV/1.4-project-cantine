@@ -62,14 +62,14 @@ public class Persoon {
      */
     public static boolean isValidBurgerServiceNummer(String burgerServiceNummer) {
         if(burgerServiceNummer.matches("[0-9]+") && (burgerServiceNummer.length() == 8 || burgerServiceNummer.length() == 9)) {
-            var bsn = burgerServiceNummer.toCharArray();
+            char[] bsn = burgerServiceNummer.toCharArray();
 
             //11-proef, zie: https://nl.wikipedia.org/wiki/Burgerservicenummer#11-proef
             int proef_getal = 0;
             int index = 0;
 
             for(int i = burgerServiceNummer.length(); i > 0; i--) {
-                var bsn_getal = Character.getNumericValue(bsn[index++]);
+                int bsn_getal = Character.getNumericValue(bsn[index++]);
 
                 if(i == 1)
                     proef_getal -= i * bsn_getal;
@@ -152,7 +152,7 @@ public class Persoon {
      * @param geslacht De enige valide opties zijn: 'm', 'v' of een 'o'
      */
     public void setGeslacht(char geslacht) {
-        var geslacht_lowercase = Character.toLowerCase(geslacht);
+        char geslacht_lowercase = Character.toLowerCase(geslacht);
 
         if(geslacht_lowercase == 'm' || geslacht_lowercase == 'v')
             this.geslacht = geslacht;

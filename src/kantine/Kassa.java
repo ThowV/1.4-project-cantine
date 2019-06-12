@@ -1,6 +1,7 @@
 package kantine;
 
 import java.math.BigDecimal;
+import java.util.Iterator;
 
 public class Kassa {
     private int aantalArtikelen;
@@ -20,12 +21,12 @@ public class Kassa {
      * @param klant die moet afrekenen als dienblad
      */
     public void rekenAf(Dienblad klant) {
-        var artikelenIterator = klant.getArtikelenIterator();
+        Iterator<Artikel> artikelenIterator = klant.getArtikelenIterator();
 
-        var totaalPrijs = Geld.genereerPrijs(0);
+        BigDecimal totaalPrijs = Geld.genereerPrijs(0);
 
         while(artikelenIterator.hasNext()) {
-            var artikel = artikelenIterator.next();
+            Artikel artikel = artikelenIterator.next();
 
             totaalPrijs = totaalPrijs.add(artikel.getPrijs());
             aantalArtikelen++;

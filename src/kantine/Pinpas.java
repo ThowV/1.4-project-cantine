@@ -17,5 +17,6 @@ public class Pinpas extends Betaalwijze {
      */
     public boolean betaal(double tebetalen) {
         // method body omitted
+        return false; // temporary
     }
 }
