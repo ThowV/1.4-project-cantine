@@ -122,7 +122,20 @@ public class KantineSimulatie {
 
             // laat de personen maar komen...
             for(int j = 0; j < aantalpersonen; j++) {
-                var persoon = new Persoon();
+                var randomTypeGetal = random.nextInt(100);
+
+                Persoon persoon;
+
+                if(randomTypeGetal == 0)
+                    persoon = new KantineMedewerker("111222333", "Voornaam" + j, "Achternaam", new Datum(10, 9, 1999), 'm', j, true);
+                else {
+                    if(randomTypeGetal < 89)
+                        persoon = new Student("111222333", "Voornaam" + j, "Achternaam", new Datum(10, 9, 1999), 'm', j, "HBO-ICT");
+                    else
+                        persoon = new Docent("111222333", "Voornaam" + j, "Achternaam", new Datum(10, 9, 1999), 'm', "ACVO", "ICT");
+                }
+
+                System.out.println("Er komt iemand: " + persoon.toString());
 
                 // maak persoon en dienblad aan, koppel ze
                 // en bedenk hoeveel artikelen worden gepakt

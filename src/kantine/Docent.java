@@ -47,4 +47,18 @@ public class Docent extends Persoon {
      * @param afdeling De afdeling waar deze docent in werkt.
      */
     public void setAfdeling(String afdeling) { this.afdeling = afdeling; }
+
+    /**
+     * @return Een string met informatie over deze docent.
+     */
+    public String toString(){
+        return "Docent: "
+                + "bsn: " + getBurgerServiceNummer()
+                + ", voornaam: " + getVoornaam()
+                + ", achternaam: " + getAchternaam()
+                + ", geboortedatum: " + getGeboorteDatum()
+                + ", geslacht: " + getGeslacht()
+                + ", afkorting: " + getAfkorting()
+                + ", afdeling: " + getAfdeling();
+    }
 }

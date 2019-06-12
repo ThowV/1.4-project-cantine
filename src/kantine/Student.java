@@ -42,4 +42,18 @@ public class Student extends Persoon {
      * @param studierichting de studierichting van de student.
      */
     public void setStudierichting(String studierichting) { this.studierichting = studierichting; }
+
+    /**
+     * @return Een string met informatie over deze student.
+     */
+    public String toString(){
+        return "Student: "
+                + "bsn: " + getBurgerServiceNummer()
+                + ", voornaam: " + getVoornaam()
+                + ", achternaam: " + getAchternaam()
+                + ", geboortedatum: " + getGeboorteDatum()
+                + ", geslacht: " + getGeslacht()
+                + ", studentnummer: " + getStudentnummer()
+                + ", studierichting: " + getStudierichting();
+    }
 }

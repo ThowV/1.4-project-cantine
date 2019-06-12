@@ -42,4 +42,18 @@ public class KantineMedewerker extends Persoon {
      * @param magAchterKassa of deze persoon achter de kassa mag staan.
      */
     public void setMagAchterKassa(boolean magAchterKassa) { this.magAchterKassa = magAchterKassa; }
+
+    /**
+     * @return Een string met informatie over deze KantineMedewerker.
+     */
+    public String toString(){
+        return "KantineMedewerker: "
+                + "bsn: " + getBurgerServiceNummer()
+                + ", voornaam: " + getVoornaam()
+                + ", achternaam: " + getAchternaam()
+                + ", geboortedatum: " + getGeboorteDatum()
+                + ", geslacht: " + getGeslacht()
+                + ", medewerkersNummer: " + getMedewerkersNummer()
+                + ", magAchterKassa: " + getMagAchterKassa();
+    }
 }
