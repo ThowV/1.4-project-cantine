@@ -1,8 +1,11 @@
 package kantine;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
 
 public class Administratie {
+
+    private static int DAYS_IN_WEEK = 7;
 
     /**
      * Deze methode berekent van de int array aantal de gemiddelde waarde
@@ -43,7 +46,6 @@ public class Administratie {
     public static BigDecimal[] berekenDagOmzet(BigDecimal[] omzet) {
         BigDecimal[] temp = new BigDecimal[DAYS_IN_WEEK];
         Arrays.fill(temp, Geld.genereerPrijs(0));
-        int totaalWeekDagen =  0;
 
         /* Oude methode:
         for(int i = 0; i < DAYS_IN_WEEK; i++) {
@@ -58,10 +60,7 @@ public class Administratie {
 
         for(int i = 0; i < omzet.length; i++) {
             int dag = i % DAYS_IN_WEEK;
-            temp[dag] = temp[dag].add(omzet[dag + totaalWeekDagen]);
-
-            if(dag == 6)
-                totaalWeekDagen += 7;
+            temp[dag] = temp[dag].add(omzet[i]);
         }
 
         return temp;
