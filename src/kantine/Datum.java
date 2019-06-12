@@ -9,6 +9,7 @@ public class Datum {
     private int[] februari = {28, 29};
     private int[] dagInMaand = {31, februari[0], 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 
+    public static final String[] WEEK_DAGEN = { "Maandag", "Dinsdag", "Woensdag", "Donderdag", "Vrijdag", "Zaterdag", "Zondag"};
 
     public Datum() {
         dag = maand = jaar = 0;
@@ -55,8 +56,7 @@ public class Datum {
      * @return Geboortedatum
      */
     public String getDatumAsString() {
-        // TODO
-        return "";
+        return jaar + "-" + maand + "-" + dag;
     }
 
     public int getDag() {
@@ -81,5 +81,12 @@ public class Datum {
 
     public void setJaar(int jaar) {
         this.jaar = jaar;
+    }
+
+    public static String getWeekDagAsString(int weekDag){
+        if(weekDag < 7)
+            return WEEK_DAGEN[weekDag];
+        else
+            throw new IllegalArgumentException("De weekdag moet tussen 0-6 liggen.");
     }
 }

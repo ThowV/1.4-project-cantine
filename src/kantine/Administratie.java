@@ -65,4 +65,22 @@ public class Administratie {
 
         return temp;
     }
+
+    public static void PrintDagOmzet(BigDecimal[] omzet){
+        var dagOmzet = berekenDagOmzet(omzet);
+
+        System.out.println("Dagomzet: ");
+        for (int i = 0; i < dagOmzet.length; i++){
+            System.out.println(Datum.getWeekDagAsString(i) + ": " + dagOmzet[i].toString());
+        }
+        System.out.println("___________");
+    }
+
+    public static void PrintGemiddeldeOmzet(BigDecimal[] omzet){
+        System.out.println("Gemiddelde omzet: " + berekenGemiddeldeOmzet(omzet));
+    }
+
+    public static void PrintGemiddeldAantal(int[] aantal){
+        System.out.println("Gemiddeld aantal: " + berekenGemiddeldAantal(aantal));
+    }
 }

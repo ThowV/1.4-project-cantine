@@ -114,6 +114,9 @@ public class KantineSimulatie {
      * @param dagen
      */
     public void simuleer(int dagen) {
+        BigDecimal[] omzet = new BigDecimal[dagen];
+        int[] aantal = new int[dagen];
+
         // for lus voor dagen
         for(int i = 0; i < dagen; i++) {
 
@@ -161,9 +164,16 @@ public class KantineSimulatie {
             // toon dagtotalen (artikelen en geld in kassa)
             System.out.println("Dag: " + (i + 1) + " - Artikelen: " + kantine.getKassa().getAantalArtikelen() + " - Geld: " + kantine.getKassa().getHoeveelheidGeldInKassa());
 
+            omzet[i] = kantine.getKassa().getHoeveelheidGeldInKassa();
+            aantal[i] = kantine.getKassa().getAantalArtikelen();
+
             // reset de kassa voor de volgende dag
             kantine.getKassa().resetKassa();
         }
+
+        Administratie.PrintGemiddeldAantal(aantal);
+        Administratie.berekenGemiddeldeOmzet(omzet);
+        Administratie.berekenDagOmzet(omzet);
     }
 
     /**
