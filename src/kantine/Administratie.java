@@ -1,5 +1,7 @@
 package kantine;
 
+import java.math.BigDecimal;
+
 public class Administratie {
 
     /**
@@ -8,39 +10,52 @@ public class Administratie {
      * @param aantal
      * @return het gemiddelde
      */
-    public double berekenGemiddeldAantal(int[] aantal) {
-        // method body omitted
+    public static double berekenGemiddeldAantal(int[] aantal) {
+        double totaalAantal = 0;
+
+        for(int i = 0; i < aantal.length; i++)
+            totaalAantal += aantal[i];
+
+        return totaalAantal / aantal.length;
     }
 
     /**
-     * Deze methode berekent van de double array omzet de gemiddelde waarde
+     * Deze methode berekent van de BigDecimal array omzet de gemiddelde waarde
      *
      * @param omzet
      * @return het gemiddelde
      */
-    public double berekenGemiddeldeOmzet(double[] omzet) {
-        // method body omitted
+    public static BigDecimal berekenGemiddeldeOmzet(BigDecimal[] omzet) {
+        BigDecimal totaaltotaalOmzet = Geld.genereerPrijs(0.00);
+
+        for(int i = 0; i < omzet.length; i++)
+            totaaltotaalOmzet = totaaltotaalOmzet.add(omzet[i]);
+
+        return Geld.deelPrijsDoor(totaaltotaalOmzet, omzet.length);
     }
 
     /**
-     * Methode om dagomzet uit te rekenen
+     * Methode om dagomzet uit te rekenen.
      *
-     * @param omzet
-     * @return array (7 elementen) met dagomzetten
+     * @param omzet Alle omzetten in een periode.
+     * @return array (7 elementen) met de opgetelde dagomzetten.
      */
+    public static BigDecimal[] berekenDagOmzet(BigDecimal[] omzet) {
+        BigDecimal[] temp = new BigDecimal[DAYS_IN_WEEK];
 
-    public static double[] berekenDagOmzet(double[] omzet) {
-        double[] temp = new double[7];
         for(int i = 0; i < 7; i++) {
-
             int j = 0;
-            while( ... ) {
-                temp[i] += omzet[i + 7 * j];
 
-                // omitted
+            while(i + 7 * j < omzet.length) {
+                if(temp[i] == null)
+                    temp[i] = omzet[i + 7 * j];
+                else
+                    temp[i] = temp[i].add(omzet[i + 7 * j]);
 
+                j++;
             }
         }
+
         return temp;
     }
 }
