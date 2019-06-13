@@ -8,6 +8,11 @@ public class Administratie {
     private static int DAYS_IN_WEEK = 7;
 
     /**
+     * Private constructor to prevent instatiation of this class
+     */
+    private Administratie() {}
+
+    /**
      * Deze methode berekent van de int array aantal de gemiddelde waarde
      *
      * @param aantal
