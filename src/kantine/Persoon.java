@@ -1,5 +1,7 @@
 package kantine;
 
+import java.math.BigDecimal;
+
 public class Persoon {
 
     private String burgerServiceNummer;
@@ -11,6 +13,8 @@ public class Persoon {
 
     private char geslacht;
 
+    private Betaalwijze betaalwijze = new Pinpas();
+
     /**
      * Constructor
      * @param bsn Burger Service Nummer
@@ -19,20 +23,22 @@ public class Persoon {
      * @param geboorteDatum De geboortedatum van dit persoon
      * @param geslacht Het geslacht van deze persoon als: 'm', 'v' of 'o'
      */
-    public Persoon(String bsn, String voornaam, String achternaam, Datum geboorteDatum, char geslacht) {
+    public Persoon(String bsn, String voornaam, String achternaam, Datum geboorteDatum, char geslacht, BigDecimal beginSaldo) {
         setBurgerServiceNummer(bsn);
         setGeslacht(geslacht);
 
         this.voornaam = voornaam;
         this.achternaam = achternaam;
         this.geboorteDatum = geboorteDatum;
+
+        betaalwijze.setSaldo(beginSaldo);
     }
 
     /**
      * Constructor dat een leeg Persoon maakt.
      */
     public Persoon() {
-        this("00000000", "VOORNAAM", "ACHTERNAAM", new Datum(), 'o');
+        this("00000000", "VOORNAAM", "ACHTERNAAM", new Datum(), 'o', Geld.genereerPrijs(0));
     }
 
     /**
@@ -168,6 +174,18 @@ public class Persoon {
                 + ", voornaam: " + getVoornaam()
                 + ", achternaam: " + getAchternaam()
                 + ", geboortedatum: " + getGeboorteDatum()
-                + ", geslacht: " + getGeslacht();
+                + ", geslacht: " + getGeslacht()
+                + ", saldo: " + betaalwijze.getSaldo();
     }
+
+    /**
+     * @return Geeft de betaalwijze.
+     */
+    public Betaalwijze getBetaalwijze() { return betaalwijze; }
+
+    /**
+     * Zet de manier van betalen van deze persoon.
+     * @param betaalwijze De manier waarop deze persoon moet betalen.
+     */
+    public void setBetaalwijze(Betaalwijze betaalwijze) { this.betaalwijze = betaalwijze; }
 }

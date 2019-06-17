@@ -1,5 +1,7 @@
 package kantine;
 
+import java.math.BigDecimal;
+
 public class Docent extends Persoon {
     private String afkorting;
     private String afdeling;
@@ -11,11 +13,12 @@ public class Docent extends Persoon {
      * @param achternaam Achternaam
      * @param geboorteDatum De geboortedatum van dit persoon
      * @param geslacht Het geslacht van deze persoon als: 'm', 'v' of 'o'
+     * @param beginSaldo Het begin saldo van deze persoon
      * @param afkorting De afkorting van deze docent als een 4 letter String
      * @param afdeling De afdeling waar deze docent in werkt.
      */
-    public Docent(String bsn, String voornaam, String achternaam, Datum geboorteDatum, char geslacht, String afkorting, String afdeling) {
-        super(bsn, voornaam, achternaam, geboorteDatum, geslacht);
+    public Docent(String bsn, String voornaam, String achternaam, Datum geboorteDatum, char geslacht, BigDecimal beginSaldo, String afkorting, String afdeling) {
+        super(bsn, voornaam, achternaam, geboorteDatum, geslacht, beginSaldo);
 
         setAfkorting(afkorting);
         this.afdeling = afdeling;
@@ -52,13 +55,6 @@ public class Docent extends Persoon {
      * @return Een string met informatie over deze docent.
      */
     public String toString(){
-        return "Docent: "
-                + "bsn: " + getBurgerServiceNummer()
-                + ", voornaam: " + getVoornaam()
-                + ", achternaam: " + getAchternaam()
-                + ", geboortedatum: " + getGeboorteDatum()
-                + ", geslacht: " + getGeslacht()
-                + ", afkorting: " + getAfkorting()
-                + ", afdeling: " + getAfdeling();
+        return "Docent: " + super.toString() + ", afkorting: " + getAfkorting() + ", afdeling: " + getAfdeling();
     }
 }

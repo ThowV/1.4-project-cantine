@@ -45,6 +45,10 @@ public class KantineSimulatie {
     private static final int MIN_ARTIKELEN_PER_PERSOON = 1;
     private static final int MAX_ARTIKELEN_PER_PERSOON = 4;
 
+    // minimum en maximum begin saldo per persoon
+    private static final double MIN_BEGINSALDO_PER_PERSOON = 0.0;
+    private static final double MAX_BEGINSALDO_PER_PERSOON = 1000.0;
+
     /**
      * Constructor
      *
@@ -71,22 +75,10 @@ public class KantineSimulatie {
     private int[] getRandomArray(int lengte, int min, int max) {
         int[] temp = new int[lengte];
         for(int i = 0; i < lengte ;i++) {
-            temp[i] = getRandomValue(min, max);
+            temp[i] = RandomGenerator.getRandomValue(min, max);
         }
 
         return temp;
-    }
-
-    /**
-     * Methode om een random getal tussen min(incl)
-     * en max(incl) te genereren.
-     *
-     * @param min
-     * @param max
-     * @return Een random getal
-     */
-    private int getRandomValue(int min, int max) {
-        return random.nextInt(max - min + 1) + min;
     }
 
     /**
@@ -121,7 +113,7 @@ public class KantineSimulatie {
         for(int i = 0; i < dagen; i++) {
 
             // bedenk hoeveel personen vandaag binnen lopen
-            int aantalpersonen = getRandomValue(MIN_PERSONEN_PER_DAG, MAX_PERSONEN_PER_DAG);
+            int aantalpersonen = RandomGenerator.getRandomValue(MIN_PERSONEN_PER_DAG, MAX_PERSONEN_PER_DAG);
 
             // laat de personen maar komen...
             for(int j = 0; j < aantalpersonen; j++) {
@@ -129,20 +121,22 @@ public class KantineSimulatie {
 
                 Persoon persoon;
 
+                BigDecimal randomBeginSaldo = Geld.genereerPrijs(RandomGenerator.getRandomValue(MIN_BEGINSALDO_PER_PERSOON, MAX_BEGINSALDO_PER_PERSOON));
+
                 if(randomTypeGetal == 0)
-                    persoon = new KantineMedewerker("111222333", "Voornaam" + j, "Achternaam", new Datum(10, 9, 1999), 'm', j, true);
+                    persoon = new KantineMedewerker("111222333", "Voornaam" + j, "Achternaam", new Datum(10, 9, 1999), 'm', randomBeginSaldo, j, true);
                 else {
                     if(randomTypeGetal < 89)
-                        persoon = new Student("111222333", "Voornaam" + j, "Achternaam", new Datum(10, 9, 1999), 'm', j, "HBO-ICT");
+                        persoon = new Student("111222333", "Voornaam" + j, "Achternaam", new Datum(10, 9, 1999), 'm', randomBeginSaldo, j, "HBO-ICT");
                     else
-                        persoon = new Docent("111222333", "Voornaam" + j, "Achternaam", new Datum(10, 9, 1999), 'm', "ACVO", "ICT");
+                        persoon = new Docent("111222333", "Voornaam" + j, "Achternaam", new Datum(10, 9, 1999), 'm', randomBeginSaldo, "ACVO", "ICT");
                 }
 
                 System.out.println("Er komt iemand: " + persoon.toString());
 
                 // maak persoon en dienblad aan, koppel ze
                 // en bedenk hoeveel artikelen worden gepakt
-                int aantalartikelen = getRandomValue(MIN_ARTIKELEN_PER_PERSOON, MAX_ARTIKELEN_PER_PERSOON);
+                int aantalartikelen = RandomGenerator.getRandomValue(MIN_ARTIKELEN_PER_PERSOON, MAX_ARTIKELEN_PER_PERSOON);
 
                 // genereer de "artikelnummers", dit zijn indexen
                 // van de artikelnamen

@@ -3,6 +3,8 @@ package kantine;
 import java.math.BigDecimal;
 
 public class Geld {
+    public enum prijsVergelijking { Kleiner, Groter, Gelijk };
+
     /**
      * Maakt een BigDecimal aan met de gewenste eigenschappen.
      * @param prijs De prijs als een double, halven worden afgerond naar een even getal.
@@ -32,5 +34,22 @@ public class Geld {
      */
     public static BigDecimal deelPrijsDoor(BigDecimal prijs, BigDecimal deelGetal) {
         return prijs.divide(deelGetal, 4, BigDecimal.ROUND_HALF_EVEN);
+    }
+
+    /**
+     * Vergelijkt twee BigDecimals met elkaar.
+     * @param teVergelijken De BigDecimal die je wilt vergelijken
+     * @param vergelijkenMet De BigDecimal waarmee je wilt vergelijken
+     * @return Geeft een prijsVergelijking enum terug.
+     */
+    public static prijsVergelijking vergelijkPrijzen(BigDecimal teVergelijken, BigDecimal vergelijkenMet) {
+        int resultaat = teVergelijken.compareTo(vergelijkenMet);
+
+        if(resultaat == -1)
+            return prijsVergelijking.Kleiner; //Want vergelijkenMet is groter dan teVergelijken
+        else if(resultaat == 1)
+            return prijsVergelijking.Groter; //Want vergelijkenMet is kleiner dan teVergelijken
+
+        return prijsVergelijking.Gelijk; //Want vergelijkenMet is gelijk aan teVergelijken
     }
 }

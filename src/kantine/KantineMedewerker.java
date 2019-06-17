@@ -1,5 +1,7 @@
 package kantine;
 
+import java.math.BigDecimal;
+
 public class KantineMedewerker extends Persoon {
     private int medewerkersNummer;
     private boolean magAchterKassa;
@@ -11,11 +13,12 @@ public class KantineMedewerker extends Persoon {
      * @param achternaam Achternaam
      * @param geboorteDatum De geboortedatum van dit persoon
      * @param geslacht Het geslacht van deze persoon als: 'm', 'v' of 'o'
+     * @param beginSaldo Het begin saldo van deze persoon
      * @param medewerkersNummer Het medewerkers nummer
      * @param magAchterKassa of deze medewerker achter de kassa mag staan of niet.
      */
-    public KantineMedewerker(String bsn, String voornaam, String achternaam, Datum geboorteDatum, char geslacht, int medewerkersNummer, boolean magAchterKassa) {
-        super(bsn, voornaam, achternaam, geboorteDatum, geslacht);
+    public KantineMedewerker(String bsn, String voornaam, String achternaam, Datum geboorteDatum, char geslacht, BigDecimal beginSaldo, int medewerkersNummer, boolean magAchterKassa) {
+        super(bsn, voornaam, achternaam, geboorteDatum, geslacht, beginSaldo);
 
         this.medewerkersNummer = medewerkersNummer;
         this.magAchterKassa = magAchterKassa;
@@ -47,13 +50,6 @@ public class KantineMedewerker extends Persoon {
      * @return Een string met informatie over deze KantineMedewerker.
      */
     public String toString(){
-        return "KantineMedewerker: "
-                + "bsn: " + getBurgerServiceNummer()
-                + ", voornaam: " + getVoornaam()
-                + ", achternaam: " + getAchternaam()
-                + ", geboortedatum: " + getGeboorteDatum()
-                + ", geslacht: " + getGeslacht()
-                + ", medewerkersNummer: " + getMedewerkersNummer()
-                + ", magAchterKassa: " + getMagAchterKassa();
+        return "KantineMedewerker: " + super.toString() + ", medewerkersNummer: " + getMedewerkersNummer() + ", magAchterKassa: " + getMagAchterKassa();
     }
 }

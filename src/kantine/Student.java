@@ -1,5 +1,7 @@
 package kantine;
 
+import java.math.BigDecimal;
+
 public class Student extends Persoon {
     private int studentnummer;
     private String studierichting;
@@ -11,11 +13,12 @@ public class Student extends Persoon {
      * @param achternaam Achternaam
      * @param geboorteDatum De geboortedatum van dit persoon
      * @param geslacht Het geslacht van deze persoon als: 'm', 'v' of 'o'
+     * @param beginSaldo Het begin saldo van deze persoon
      * @param studentnummer het studentennummer van deze student als getal.
      * @param studierichting De studierichting die deze student heeft gekozen.
      */
-    public Student(String bsn, String voornaam, String achternaam, Datum geboorteDatum, char geslacht, int studentnummer, String studierichting) {
-        super(bsn, voornaam, achternaam, geboorteDatum, geslacht);
+    public Student(String bsn, String voornaam, String achternaam, Datum geboorteDatum, char geslacht, BigDecimal beginSaldo, int studentnummer, String studierichting) {
+        super(bsn, voornaam, achternaam, geboorteDatum, geslacht, beginSaldo);
 
         this.studentnummer = studentnummer;
         this.studierichting = studierichting;
@@ -47,13 +50,6 @@ public class Student extends Persoon {
      * @return Een string met informatie over deze student.
      */
     public String toString(){
-        return "Student: "
-                + "bsn: " + getBurgerServiceNummer()
-                + ", voornaam: " + getVoornaam()
-                + ", achternaam: " + getAchternaam()
-                + ", geboortedatum: " + getGeboorteDatum()
-                + ", geslacht: " + getGeslacht()
-                + ", studentnummer: " + getStudentnummer()
-                + ", studierichting: " + getStudierichting();
+        return "Student: " + super.toString() + ", studentnummer: " + getStudentnummer() + ", studierichting: " + getStudierichting();
     }
 }
