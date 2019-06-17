@@ -23,6 +23,7 @@ public class Kassa {
      * @param dienblad waar de producten vandaan gehaald moeten worden
      */
     public void rekenAf(Dienblad dienblad) {
+        Persoon klant = dienblad.getKlant();
         Iterator<Artikel> artikelenIterator = dienblad.getArtikelenIterator();
 
         BigDecimal totaalPrijs = Geld.genereerPrijs(0);
@@ -34,16 +35,52 @@ public class Kassa {
             aantalArtikelen++;
         }
 
+        //Kijk of de klant recht heeft op korting
+        boolean klantHadKorting = false;
+        BigDecimal vorigeTotaalPrijs = totaalPrijs;
+        BigDecimal kortingDeel = Geld.genereerPrijs(0);
+
+        if(klant instanceof KortingskaartHouder) {
+            kortingDeel = geefKortingDeel((KortingskaartHouder)klant, totaalPrijs);
+            totaalPrijs = totaalPrijs.subtract(kortingDeel);
+            klantHadKorting = true;
+        }
+
         //Trek het geld af van de klant
-        boolean betaald = dienblad.getKlant().getBetaalwijze().betaal(totaalPrijs);
+        boolean betaald = klant.getBetaalwijze().betaal(totaalPrijs);
+
+        String output;
 
         if(betaald) {
             //Voeg het geld toe aan het totale bedrag in de kassa
             hoeveelheidGeldInKassa = hoeveelheidGeldInKassa.add(totaalPrijs);
-            System.out.println("Betaling van persoon " + dienblad.getKlant().getVoornaam() + " is gelukt met een bedrag van " + totaalPrijs);
+
+            output = "Betaling van " + klant.getClass().getSimpleName().toLowerCase() + " " + klant.getVoornaam() + " is gelukt met een bedrag van " + vorigeTotaalPrijs;
+
+            if(klantHadKorting)
+                output += " maar deze klant heeft ook een korting van " + kortingDeel + " dus de nieuwe prijs wordt " + totaalPrijs;
         }
         else
-            System.out.println("Betaling van persoon " + dienblad.getKlant().getVoornaam() + " is gefaald");
+            output = "Betaling van persoon " + klant.getVoornaam() + " is gefaald";
+
+        System.out.println(output);
+    }
+
+    /**
+     * Geeft de hoeveelheid geld aan korting.
+     * @param klant De klant die korting krijgt.
+     * @param prijs De totale prijs waarop de klant korting krijgt.
+     * @return hoeveelheid korting
+     */
+    private BigDecimal geefKortingDeel(KortingskaartHouder klant, BigDecimal prijs) {
+        //Bereken de korting in geld
+        BigDecimal kortingDeel = Geld.vermenigvuldigPrijsDoor(prijs, klant.geefKortingsPercentage() * 0.01);
+
+        //Kijken of de korting te hoog is voor het type klant
+        if(klant.heeftMaximum() && Geld.vergelijkPrijzen(kortingDeel, klant.geefMaximum()) == Geld.prijsVergelijking.Groter)
+            kortingDeel = klant.geefMaximum();
+
+        return kortingDeel;
     }
 
     /**

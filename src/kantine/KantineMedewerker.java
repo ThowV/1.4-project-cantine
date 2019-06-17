@@ -2,7 +2,7 @@ package kantine;
 
 import java.math.BigDecimal;
 
-public class KantineMedewerker extends Persoon {
+public class KantineMedewerker extends Persoon implements KortingskaartHouder {
     private int medewerkersNummer;
     private boolean magAchterKassa;
 
@@ -23,6 +23,15 @@ public class KantineMedewerker extends Persoon {
         this.medewerkersNummer = medewerkersNummer;
         this.magAchterKassa = magAchterKassa;
     }
+
+    @Override
+    public double geefKortingsPercentage() { return 35; }
+
+    @Override
+    public boolean heeftMaximum() { return false; }
+
+    @Override
+    public BigDecimal geefMaximum() { return Geld.genereerPrijs(0); }
 
     /**
      * @return Het medewerkers nummer.

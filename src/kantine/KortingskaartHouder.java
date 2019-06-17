@@ -1,5 +1,7 @@
 package kantine;
 
+import java.math.BigDecimal;
+
 public interface KortingskaartHouder {
 
     /**
@@ -15,5 +17,5 @@ public interface KortingskaartHouder {
     /**
      * Methode om het maximum kortingsbedrag op te vragen
      */
-    public double geefMaximum();
+    public BigDecimal geefMaximum();
 }

@@ -15,18 +15,6 @@ public class Geld {
     }
 
     /**
-     * Deelt een BigDecimal met een integer.
-     * @param prijs De prijs als BigDecimal.
-     * @param deelGetal De integer waarmee de prijs gedeeld wordt.
-     * @return Geeft een BigDecimal terug dat gedeeld is door deelGetal.
-     */
-    public static BigDecimal deelPrijsDoor(BigDecimal prijs, int deelGetal) {
-        BigDecimal deelGetalBD = genereerPrijs((double)deelGetal);
-
-        return prijs.divide(deelGetalBD, 4, BigDecimal.ROUND_HALF_EVEN);
-    }
-
-    /**
      * Deelt een BigDecimal met een BigDecimal.
      * @param prijs De prijs als BigDecimal.
      * @param deelGetal De BigDecimal waarmee de prijs gedeeld wordt.
@@ -34,6 +22,36 @@ public class Geld {
      */
     public static BigDecimal deelPrijsDoor(BigDecimal prijs, BigDecimal deelGetal) {
         return prijs.divide(deelGetal, 4, BigDecimal.ROUND_HALF_EVEN);
+    }
+
+    /**
+     * Deelt een BigDecimal met een integer.
+     * @param prijs De prijs als BigDecimal.
+     * @param deelGetal De integer waarmee de prijs gedeeld wordt.
+     * @return Geeft een BigDecimal terug dat gedeeld is door deelGetal.
+     */
+    public static BigDecimal deelPrijsDoor(BigDecimal prijs, int deelGetal) {
+        return deelPrijsDoor(prijs, genereerPrijs((double)deelGetal));
+    }
+
+    /**
+     * Vermenigvuldigd een Bigdecimal met een BigDecimal.
+     * @param prijs De prijs als BigDecimal.
+     * @param vermigvuldigGetal De BigDecimal waarmee de prijs vermenigvuldigd wordt
+     * @return Geeft een BigDecimal terug dat vermenigvuldigd is door vermenigvuldigGetal
+     */
+    public static BigDecimal vermenigvuldigPrijsDoor(BigDecimal prijs, BigDecimal vermigvuldigGetal) {
+        return prijs.multiply(vermigvuldigGetal);
+    }
+
+    /**
+     * Vermenigvuldigd een Bigdecimal met een double.
+     * @param prijs De prijs als BigDecimal.
+     * @param vermigvuldigGetal De double waarmee de prijs vermenigvuldigd wordt
+     * @return Geeft een BigDecimal terug dat vermenigvuldigd is door vermenigvuldigGetal
+     */
+    public static BigDecimal vermenigvuldigPrijsDoor(BigDecimal prijs, double vermigvuldigGetal) {
+        return vermenigvuldigPrijsDoor(prijs, genereerPrijs(vermigvuldigGetal));
     }
 
     /**
