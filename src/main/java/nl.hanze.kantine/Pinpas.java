@@ -24,6 +24,6 @@ public class Pinpas extends Betaalwijze {
         if(Geld.vergelijkPrijzen(kredietlimiet, tebetalen) == Geld.prijsVergelijking.Groter)
             super.betaal(tebetalen);
         else
-            throw new KredietLimietException("het bedrag is te hoog voor het aangegeven kridietlimiet");
+            throw new KredietLimietException("het bedrag is te hoog voor het aangegeven kredietlimiet");
     }
 }
