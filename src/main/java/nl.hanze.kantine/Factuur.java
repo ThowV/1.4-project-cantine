@@ -1,17 +1,33 @@
 package nl.hanze.kantine;
 
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.io.Serializable;
 import java.util.Iterator;
 
+@Entity
+@Table(name = "factuur")
 public class Factuur {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id", unique = true, updatable = false, nullable = false)
     private Long id;
+
+    @Column(name = "datum")
     private LocalDate datum;
+
+    @Column(name = "korting")
     private BigDecimal korting;
+
+    @Column(name = "totaal")
     private BigDecimal totaal;
+
+    @Column(name = "aantal_artikelen")
     private int aantalArtikelen;
+
+    @Transient
     private Dienblad dienblad;
+
 
     public Factuur() {
         totaal = Geld.genereerPrijs(0);
@@ -21,6 +37,7 @@ public class Factuur {
     public Factuur(Dienblad dienblad, int dag) {
         this();
         this.datum = LocalDate.now().plusDays(dag);
+        this.aantalArtikelen = 0;
         this.dienblad = dienblad;
 
         verwerkBestelling();
