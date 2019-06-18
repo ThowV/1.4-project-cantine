@@ -19,13 +19,11 @@ public class Pinpas extends Betaalwijze {
     /**
      * Methode om betaling af te handelen
      */
-    public boolean betaal(BigDecimal tebetalen) {
+    public void betaal(BigDecimal tebetalen) {
         //Kijk of het bedrag dat betaald moet worden niet hoger is dan het limiet
-        if(Geld.vergelijkPrijzen(kredietlimiet, tebetalen) == Geld.prijsVergelijking.Groter) {
-            //Zo ja, betaal dan het bedrag
-            return super.betaal(tebetalen);
-        }
-
-        return false;
+        if(Geld.vergelijkPrijzen(kredietlimiet, tebetalen) == Geld.prijsVergelijking.Groter)
+            super.betaal(tebetalen);
+        else
+            throw new KredietLimietException("het bedrag is te hoog voor het aangegeven kridietlimiet");
     }
 }

@@ -174,10 +174,18 @@ public class KantineSimulatie {
      * Start een simulatie
      */
     public static void main(String[] args) {
-        int dagen = Integer.parseInt(args[0]);
+        if (args.length == 0)
+            System.err.println("Er moet een argument voor het aantal dagen mee worden gegeven aan het programma.");
+        else {
+            try {
 
-        KantineSimulatie kantineSimulatie = new KantineSimulatie();
+                int dagen = Integer.parseInt(args[0]);
+                KantineSimulatie kantineSimulatie = new KantineSimulatie();
+                kantineSimulatie.simuleer(dagen);
 
-        kantineSimulatie.simuleer(dagen);
+            } catch (NumberFormatException e) {
+                System.err.println("Het eerste aangegeven argument moet een geheel getal zijn.");
+            }
+        }
     }
 }

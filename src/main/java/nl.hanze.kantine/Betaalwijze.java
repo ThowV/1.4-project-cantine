@@ -25,15 +25,10 @@ public abstract class Betaalwijze {
      * @param tebetalen
      * @return Boolean om te kijken of er voldoende saldo is
      */
-    public boolean betaal(BigDecimal tebetalen) {
-        if(Geld.vergelijkPrijzen(saldo, tebetalen) == Geld.prijsVergelijking.Groter) {
-            //De saldo is hoger dan het te betalen bedrag dus betaal
-
+    public void betaal(BigDecimal tebetalen) {
+        if(Geld.vergelijkPrijzen(saldo, tebetalen) == Geld.prijsVergelijking.Groter)
             saldo = saldo.subtract(tebetalen);
-
-            return true;
-        }
-
-        return false;
+        else
+            throw new TeWeinigGeldException("deze persoon heeft te weinig saldo om zijn artikelen te betalen.");
     }
 }

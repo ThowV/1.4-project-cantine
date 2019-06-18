@@ -1,7 +1,5 @@
 package nl.hanze.kantine;
 
-import com.sun.xml.internal.ws.api.message.ExceptionHasMessage;
-
 import java.math.BigDecimal;
 import java.util.Iterator;
 
@@ -46,12 +44,11 @@ public class Kassa {
             klantHadKorting = true;
         }
 
-        //Trek het geld af van de klant
-        boolean betaald = klant.getBetaalwijze().betaal(totaalPrijs);
-
         String output;
 
-        if(betaald) {
+        try {
+            klant.getBetaalwijze().betaal(totaalPrijs);
+
             //Voeg het geld toe aan het totale bedrag in de kassa
             hoeveelheidGeldInKassa = hoeveelheidGeldInKassa.add(totaalPrijs);
 
@@ -59,9 +56,10 @@ public class Kassa {
 
             if(klantHadKorting)
                 output += " maar deze klant heeft ook een korting van " + kortingDeel + " dus de nieuwe prijs wordt " + totaalPrijs;
+
+        } catch (TeWeinigGeldException | KredietLimietException exception) {
+            output = klant.getVolledigeNaam() + " kan niet betalen want " + exception.getMessage();
         }
-        else
-            output = "Betaling van persoon " + klant.getVoornaam() + " is gefaald";
 
         System.out.println(output);
     }

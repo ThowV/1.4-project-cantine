@@ -114,6 +114,13 @@ public class Persoon {
     }
 
     /**
+     * @return Geeft de volledige naam van deze persoon terug.
+     */
+    public String getVolledigeNaam(){
+        return getVoornaam() + " " + getAchternaam();
+    }
+
+    /**
      * Zet de achternaam van deze persoon.
      *
      * @param achternaam De nieuwe achternaam voor deze persoon.
