@@ -1,4 +1,4 @@
-package kantine;
+package nl.hanze.kantine;
 
 import java.util.Random;
 
