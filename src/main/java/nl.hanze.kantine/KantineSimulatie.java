@@ -1,9 +1,16 @@
 package nl.hanze.kantine;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import java.math.BigDecimal;
 import java.util.*;
 
 public class KantineSimulatie {
+    private static final EntityManagerFactory ENTITY_MANAGER_FACTORY =
+            Persistence.createEntityManagerFactory("ProjectKantine");
+
+    private EntityManager manager;
 
     // kantine
     private Kantine kantine;
@@ -54,6 +61,8 @@ public class KantineSimulatie {
      *
      */
     public KantineSimulatie() {
+        manager = ENTITY_MANAGER_FACTORY.createEntityManager();
+
         random = new Random();
 
         kantine = new Kantine();
@@ -168,6 +177,13 @@ public class KantineSimulatie {
         Administratie.printGemiddeldAantal(aantal);
         Administratie.printGemiddeldeOmzet(omzet);
         Administratie.printDagOmzet(omzet);
+
+        sluitSimulatie();
+    }
+
+    private void sluitSimulatie() {
+        manager.close();
+        ENTITY_MANAGER_FACTORY.close();
     }
 
     /**
@@ -178,7 +194,6 @@ public class KantineSimulatie {
             System.err.println("Er moet een argument voor het aantal dagen mee worden gegeven aan het programma.");
         else {
             try {
-
                 int dagen = Integer.parseInt(args[0]);
                 KantineSimulatie kantineSimulatie = new KantineSimulatie();
                 kantineSimulatie.simuleer(dagen);
