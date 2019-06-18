@@ -20,9 +20,9 @@ public class Kassa {
      *
      * @param dienblad waar de producten vandaan gehaald moeten worden
      */
-    public void rekenAf(Dienblad dienblad) {
+    public void rekenAf(Dienblad dienblad, int dag) {
         Persoon klant = dienblad.getKlant();
-        Factuur factuur = new Factuur(dienblad, LocalDate.now()); //TIJDELIJKE DATUM VERANDER DIT!
+        Factuur factuur = new Factuur(dienblad, dag); //TIJDELIJKE DATUM VERANDER DIT!
 
         BigDecimal totaalZonderKorting = factuur.getTotaal(); //De totale prijs van alle producten
         BigDecimal korting = factuur.getKorting(); //De totale korting over alle producten

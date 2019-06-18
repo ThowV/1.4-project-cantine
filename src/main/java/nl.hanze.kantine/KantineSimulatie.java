@@ -153,7 +153,7 @@ public class KantineSimulatie {
             }
 
             // verwerk rij voor de kassa
-            kantine.verwerkRijVoorKassa();
+            kantine.verwerkRijVoorKassa(i);
 
             // toon dagtotalen (artikelen en geld in kassa)
             System.out.println("Dag: " + (i + 1) + " - Artikelen: " + kantine.getKassa().getAantalArtikelen() + " - Geld: " + kantine.getKassa().getHoeveelheidGeldInKassa());

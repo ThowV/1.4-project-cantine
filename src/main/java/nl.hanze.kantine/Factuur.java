@@ -18,9 +18,9 @@ public class Factuur {
         korting = Geld.genereerPrijs(0);
     }
 
-    public Factuur(Dienblad dienblad, LocalDate datum) {
+    public Factuur(Dienblad dienblad, int dag) {
         this();
-        this.datum = datum;
+        this.datum = LocalDate.now().plusDays(dag);
         this.dienblad = dienblad;
 
         verwerkBestelling();
