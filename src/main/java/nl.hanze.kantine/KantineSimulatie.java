@@ -66,28 +66,10 @@ public class KantineSimulatie {
         random = new Random();
 
         kantine = new Kantine();
-        int[] hoeveelheden = getRandomArray(AANTAL_ARTIKELEN, MIN_ARTIKELEN_PER_SOORT, MAX_ARTIKELEN_PER_SOORT);
+        int[] hoeveelheden = RandomGenerator.getRandomArray(AANTAL_ARTIKELEN, MIN_ARTIKELEN_PER_SOORT, MAX_ARTIKELEN_PER_SOORT);
         kantineaanbod = new KantineAanbod(artikelnamen, artikelprijzen, hoeveelheden);
 
         kantine.setKantineAanbod(kantineaanbod);
-    }
-
-    /**
-     * Methode om een array van random getallen liggend tussen
-     * min en max van de gegeven lengte te genereren
-     *
-     * @param lengte
-     * @param min
-     * @param max
-     * @return De array met random getallen
-     */
-    private int[] getRandomArray(int lengte, int min, int max) {
-        int[] temp = new int[lengte];
-        for(int i = 0; i < lengte ;i++) {
-            temp[i] = RandomGenerator.getRandomValue(min, max);
-        }
-
-        return temp;
     }
 
     /**
@@ -149,8 +131,7 @@ public class KantineSimulatie {
 
                 // genereer de "artikelnummers", dit zijn indexen
                 // van de artikelnamen
-                int[] tePakkenArtikelen = getRandomArray(
-                        aantalartikelen, 0, AANTAL_ARTIKELEN-1);
+                int[] tePakkenArtikelen = RandomGenerator.getRandomArray(aantalartikelen, 0, AANTAL_ARTIKELEN-1);
 
                 // vind de artikelnamen op basis van
                 // de indexen hierboven
