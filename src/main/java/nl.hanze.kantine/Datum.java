@@ -18,7 +18,7 @@ public class Datum {
     public Datum(int dag, int maand, int jaar) {
         this(); //Zet de standaard waarden
 
-        if(bestaatDatum()) {
+        if(bestaatDatum(dag, maand, jaar)) {
             this.dag = dag;
             this.maand = maand;
             this.jaar = jaar;
@@ -26,7 +26,7 @@ public class Datum {
     }
 
 
-    public boolean bestaatDatum() {
+    public boolean bestaatDatum(int dag, int maand, int jaar) {
         int laasteDagFebruari = 28;
 
         //Kijk of de gegeven datum binnen de randvoorwaarden ligt

@@ -31,8 +31,6 @@ public class Persoon {
         this.achternaam = achternaam;
         this.geboorteDatum = geboorteDatum;
 
-        System.out.println(geboorteDatum.getDatumAsString());
-
         betaalwijze.setSaldo(beginSaldo);
     }
 
