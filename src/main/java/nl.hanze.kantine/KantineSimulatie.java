@@ -127,6 +127,15 @@ public class KantineSimulatie {
             ArrayList<String> dagAanbiedingenNamen = getDagAanbiedingenFromAanbodBoolean(dagAanbod);
             kantineaanbod.setDagAanbiedingen(dagAanbiedingenNamen);
             printDagAanbiedingen(dagAanbiedingenNamen);
+            // geeft de week als titel in markdown.
+            if(i % 7 == 0 || i == 0) {
+                week = i / 7;
+                markdownGenerator.add(MarkdownStringGenerator.generateTitle(new MarkdownString("Week: " + (week + 1)), TitleSize.H1));
+            }
+
+            // geeft de dag als titel in markdown.
+            dag = i + 1 - 7 * week;
+            markdownGenerator.add(MarkdownStringGenerator.generateTitle(new MarkdownString("Dag: " + dag), TitleSize.H2));
 
             // bedenk hoeveel personen vandaag binnen lopen
             int aantalpersonen = RandomGenerator.getRandomValue(MIN_PERSONEN_PER_DAG, MAX_PERSONEN_PER_DAG);
