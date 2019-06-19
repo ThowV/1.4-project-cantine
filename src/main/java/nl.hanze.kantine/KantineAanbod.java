@@ -17,22 +17,22 @@ public class KantineAanbod {
      * is een lijst met hoeveelheden. Let op: de dimensies van de drie arrays
      * moeten wel gelijk zijn!
      */
-    public KantineAanbod(String[] artikelnaam, BigDecimal[] prijs, int[] aantal) {
+    public KantineAanbod(Artikel[] artikelenArray, int[] aantal) {
         aanbod = new HashMap<String, ArrayList<Artikel>>();
         startVoorraad = new HashMap<String, Integer>();
         prijzen = new HashMap<String, BigDecimal>();
 
-        for(int i = 0; i < artikelnaam.length; i++) {
+        for(int i = 0; i < artikelenArray.length; i++) {
             ArrayList<Artikel> artikelen = new ArrayList<Artikel>();
 
             //Voor elk artikel voeg het aantal[i] keer toe aan artikelen
             for(int j = 0; j < aantal[i]; j++) {
-                artikelen.add(new Artikel(artikelnaam[i], prijs[i]));
+                artikelen.add(new Artikel(artikelenArray[i].getNaam(), artikelenArray[i].getPrijs()));
             }
 
-            startVoorraad.put(artikelnaam[i], aantal[i]);
-            prijzen.put(artikelnaam[i], prijs[i]);
-            aanbod.put(artikelnaam[i], artikelen);
+            startVoorraad.put(artikelenArray[i].getNaam(), aantal[i]);
+            prijzen.put(artikelenArray[i].getNaam(), artikelenArray[i].getPrijs());
+            aanbod.put(artikelenArray[i].getNaam(), artikelen);
         }
     }
 

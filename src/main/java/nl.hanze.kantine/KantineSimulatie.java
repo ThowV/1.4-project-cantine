@@ -1,11 +1,11 @@
 package nl.hanze.kantine;
 
+import nl.hanze.kantine.json.importer.JSONConverter;
 import nl.hanze.kantine.markdown.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import java.lang.reflect.Array;
 import java.math.BigDecimal;
 import java.util.*;
 
@@ -24,24 +24,9 @@ public class KantineSimulatie {
     // random generator
     private Random random;
 
-    // aantal artikelen
-    private static final int AANTAL_ARTIKELEN = 4;
-
-    // artikelen
-    private static final String[] artikelnamen = new String[] {
-            "Koffie",
-            "Broodje pindakaas",
-            "Broodje kaas",
-            "Appelsap"
-    };
-
-    // prijzen
-    private static BigDecimal[] artikelprijzen = new BigDecimal[] {
-            Geld.genereerPrijs(1.50),
-            Geld.genereerPrijs(2.10),
-            Geld.genereerPrijs(1.65),
-            Geld.genereerPrijs(1.65)
-    };
+    // Artikelen
+    private static final Artikel[] artikelen = JSONConverter.GenerateArtikelen();
+    private static final int AANTAL_ARTIKELEN = artikelen.length;
 
     // minimum en maximum aantal artikelen per soort
     private static final int MIN_ARTIKELEN_PER_SOORT = 10000;
@@ -75,7 +60,7 @@ public class KantineSimulatie {
 
         kantine = new Kantine();
         int[] hoeveelheden = RandomGenerator.getRandomArray(AANTAL_ARTIKELEN, MIN_ARTIKELEN_PER_SOORT, MAX_ARTIKELEN_PER_SOORT);
-        kantineaanbod = new KantineAanbod(artikelnamen, artikelprijzen, hoeveelheden);
+        kantineaanbod = new KantineAanbod(artikelen, hoeveelheden);
 
         kantine.setKantineAanbod(kantineaanbod);
     }
@@ -88,13 +73,13 @@ public class KantineSimulatie {
      * @return De array met artikelnamen
      */
     private String[] geefArtikelNamen(int[] indexen) {
-        String[] artikelen = new String[indexen.length];
+        String[] artikelNamen = new String[indexen.length];
 
         for(int i = 0; i < indexen.length; i++) {
-            artikelen[i] = artikelnamen[indexen[i]];
+            artikelNamen[i] = artikelen[indexen[i]].getNaam();
         }
 
-        return artikelen;
+        return artikelNamen;
     }
 
     /**
@@ -338,7 +323,7 @@ public class KantineSimulatie {
 
         for (int x = 0; x < dagAanbod.length; x++) {
             if(dagAanbod[x])
-                dagaanbiedingen.add(artikelnamen[x]);
+                dagaanbiedingen.add(artikelen[x].getNaam());
         }
 
         return dagaanbiedingen;

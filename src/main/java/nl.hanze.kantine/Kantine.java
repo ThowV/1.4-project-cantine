@@ -1,7 +1,5 @@
 package nl.hanze.kantine;
 
-import java.math.BigDecimal;
-
 public class Kantine {
 
     private Kassa kassa;
@@ -15,14 +13,11 @@ public class Kantine {
         kassarij = new KassaRij();
         kassa = new Kassa(kassarij);
         kantineAanbod = new KantineAanbod(
-                new String[]{ "Banaan", "Appel", "Peer" },
-                new BigDecimal[]{
-                        Geld.genereerPrijs(1.29),
-                        Geld.genereerPrijs(2.10),
-                        Geld.genereerPrijs(0.80),
-                    },
-                new int[]{ 23, 21, 42 }
-                );
+                new Artikel[]{
+                    new Artikel("Banaan", Geld.genereerPrijs(1.29)),
+                    new Artikel("Appel", Geld.genereerPrijs(2.10)),
+                    new Artikel("Peer", Geld.genereerPrijs(0.80))
+                }, new int[] { 23, 21, 42 });
     }
 
     /**
