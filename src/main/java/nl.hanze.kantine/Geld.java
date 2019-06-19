@@ -1,6 +1,7 @@
 package nl.hanze.kantine;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 public class Geld {
     public enum prijsVergelijking { Kleiner, Groter, Gelijk };
@@ -38,10 +39,10 @@ public class Geld {
      * Vermenigvuldigd een Bigdecimal met een BigDecimal.
      * @param prijs De prijs als BigDecimal.
      * @param vermigvuldigGetal De BigDecimal waarmee de prijs vermenigvuldigd wordt
-     * @return Geeft een BigDecimal terug dat vermenigvuldigd is door vermenigvuldigGetal
+     * @return Geeft een BigDecimal terug dat vermenigvuldigd is door vermenigvuldigGetal afgerond op 2 decimalen
      */
     public static BigDecimal vermenigvuldigPrijsDoor(BigDecimal prijs, BigDecimal vermigvuldigGetal) {
-        return prijs.multiply(vermigvuldigGetal);
+        return prijs.multiply(vermigvuldigGetal).setScale(2, RoundingMode.HALF_EVEN);
     }
 
     /**

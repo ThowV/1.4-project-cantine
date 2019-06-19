@@ -39,6 +39,8 @@ public class Kassa {
 
             output = factuur.toString();
 
+            aantalArtikelen += dienblad.getAantalArtikelen();
+
         } catch (TeWeinigGeldException | KredietLimietException exception) {
             output = "\nBetaling van persoon " + klant.getVoornaam() + " is gefaald want " + exception.getMessage();
         }

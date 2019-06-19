@@ -8,7 +8,9 @@ public class KantineAanbod {
     private HashMap<String, ArrayList<Artikel>> aanbod;
     private HashMap<String, Integer> startVoorraad;
     private HashMap<String, BigDecimal> prijzen;
-    
+
+    private String[] dagAanbiedingen;
+
     /**
      * Constructor. Het eerste argument is een lijst met artikelnamen,
      * het tweede argument is een lijst met prijzen en het derde argument
@@ -46,8 +48,14 @@ public class KantineAanbod {
 
     	BigDecimal prijs = prijzen.get(productnaam);
 
-        for(int j = huidigeAantal; j < startAantal; j++) {
-            huidigeVoorraad.add(new Artikel(productnaam, prijs));
+    	if(isProductInDeAanbieding(productnaam)){
+            for(int j = huidigeAantal; j < startAantal; j++) {
+                huidigeVoorraad.add(new Artikel(productnaam, prijs, Geld.vermenigvuldigPrijsDoor(prijs, 0.20)));
+            }
+        } else {
+            for(int j = huidigeAantal; j < startAantal; j++) {
+                huidigeVoorraad.add(new Artikel(productnaam, prijs));
+            }
         }
 
         aanbod.put(productnaam, huidigeVoorraad);
@@ -87,5 +95,43 @@ public class KantineAanbod {
      */
     public Artikel getArtikel(String productnaam) {
         return getArtikel(getArrayList(productnaam));
+    }
+
+    public String[] getDagAanbiedingen() {
+        return dagAanbiedingen;
+    }
+
+    public void setDagAanbiedingen(ArrayList<String> dagAanbiedingen) {
+        this.dagAanbiedingen = new String[dagAanbiedingen.size()];
+
+        for(int i = 0; i < dagAanbiedingen.size(); i++) {
+            this.dagAanbiedingen[i] = dagAanbiedingen.get(i);
+            updateKortingVoorArtikel(this.dagAanbiedingen[i]);
+        }
+    }
+
+    private boolean isProductInDeAanbieding(String productnaam) {
+        for (String aanbiedingProductNaam : dagAanbiedingen) {
+            if (productnaam.equals(aanbiedingProductNaam))
+                return true;
+        }
+
+        return false;
+    }
+
+    public void updateKortingVoorArtikel(String productnaam) {
+        Iterator<Artikel> huidigeVoorraad = aanbod.get(productnaam).iterator();
+
+        if(isProductInDeAanbieding(productnaam)) {
+            while(huidigeVoorraad.hasNext()) {
+                Artikel artikel = huidigeVoorraad.next();
+                artikel.setKorting(Geld.vermenigvuldigPrijsDoor(artikel.getPrijs(), 0.20));
+            }
+        } else {
+            while(huidigeVoorraad.hasNext()) {
+                Artikel artikel = huidigeVoorraad.next();
+                artikel.setKorting(Geld.genereerPrijs(0));
+            }
+        }
     }
 }

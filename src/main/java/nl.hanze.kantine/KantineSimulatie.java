@@ -5,6 +5,7 @@ import nl.hanze.kantine.markdown.*;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import java.lang.reflect.Array;
 import java.math.BigDecimal;
 import java.util.*;
 
@@ -91,7 +92,6 @@ public class KantineSimulatie {
 
         for(int i = 0; i < indexen.length; i++) {
             artikelen[i] = artikelnamen[indexen[i]];
-
         }
 
         return artikelen;
@@ -121,6 +121,12 @@ public class KantineSimulatie {
             // geeft de dag als titel in markdown.
             dag = i + 1 - 7 * week;
             markdownGenerator.add(MarkdownStringGenerator.generateTitle(new MarkdownString("Dag: " + dag), TitleSize.H2));
+            
+            // Zet een korting op een random artikel.
+            boolean[] dagAanbod = RandomGenerator.getRandomBooleanArray(AANTAL_ARTIKELEN, 1);
+            ArrayList<String> dagAanbiedingenNamen = getDagAanbiedingenFromAanbodBoolean(dagAanbod);
+            kantineaanbod.setDagAanbiedingen(dagAanbiedingenNamen);
+            printDagAanbiedingen(dagAanbiedingenNamen);
 
             // bedenk hoeveel personen vandaag binnen lopen
             int aantalpersonen = RandomGenerator.getRandomValue(MIN_PERSONEN_PER_DAG, MAX_PERSONEN_PER_DAG);
@@ -238,6 +244,14 @@ public class KantineSimulatie {
         sluitSimulatie();
     }
 
+    private void printDagAanbiedingen(ArrayList<String> dagAanbiedingenNamen) {
+        System.out.print("De dagaanbiedingen van vandaag zijn: ");
+        for(String naam : dagAanbiedingenNamen) {
+            System.out.print(naam + ", ");
+        }
+        System.out.println();
+    }
+
     private void sluitSimulatie() {
         manager.close();
         ENTITY_MANAGER_FACTORY.close();
@@ -308,6 +322,17 @@ public class KantineSimulatie {
         */
 
         markdownGenerator.generateMarkdown();
+    }
+
+    private ArrayList<String> getDagAanbiedingenFromAanbodBoolean(boolean[] dagAanbod){
+        ArrayList<String> dagaanbiedingen = new ArrayList<String>();
+
+        for (int x = 0; x < dagAanbod.length; x++) {
+            if(dagAanbod[x])
+                dagaanbiedingen.add(artikelnamen[x]);
+        }
+
+        return dagaanbiedingen;
     }
 
     /**

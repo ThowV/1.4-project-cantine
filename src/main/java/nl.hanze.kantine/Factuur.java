@@ -53,11 +53,8 @@ public class Factuur {
         //Geef het totaal bedrag
         totaal = verwerkTotaal();
 
-        //Kijk of de klant recht heeft op korting, zo ja, geef de korting
         Persoon klant = dienblad.getKlant();
-
-        if(klant instanceof KortingskaartHouder)
-            korting = verwerkKorting(totaal);
+        korting = verwerkKorting(totaal, klant);
     }
 
     /**
@@ -65,6 +62,8 @@ public class Factuur {
      * @return Totale bedrag.
      */
     private BigDecimal verwerkTotaal() {
+        BigDecimal totaal = Geld.genereerPrijs(0);
+
         //Bereken hoeveel het zonder kosting kost en over hoeveel artikelen de klant beschikt
         Iterator<Artikel> artikelenIterator = dienblad.getArtikelenIterator();
 
@@ -83,15 +82,38 @@ public class Factuur {
      * @param totaal De totale prijs waarop de klant korting krijgt.
      * @return Hoeveelheid korting
      */
-    private BigDecimal verwerkKorting(BigDecimal totaal) {
-        KortingskaartHouder klant = (KortingskaartHouder)dienblad.getKlant();
+    private BigDecimal verwerkKorting(BigDecimal totaal, Persoon klant) {
+        BigDecimal totaalBedrag = totaal;
+        BigDecimal korting = Geld.genereerPrijs(0);
 
-        //Bereken de korting
-        BigDecimal korting = Geld.vermenigvuldigPrijsDoor(totaal, klant.geefKortingsPercentage() * 0.01);
+        if(klant instanceof KortingskaartHouder) {
+            Iterator<Artikel> artikelen = dienblad.getArtikelenIterator();
 
-        //Kijken of de korting te hoog is voor het type klant, zo ja pas de korting aan
-        if(klant.heeftMaximum() && Geld.vergelijkPrijzen(korting, klant.geefMaximum()) == Geld.prijsVergelijking.Groter)
-            korting = klant.geefMaximum();
+            while (artikelen.hasNext()) {
+                Artikel artikel = artikelen.next();
+
+                korting = korting.add(artikel.getKorting());
+
+                if(!artikel.getKorting().equals(Geld.genereerPrijs(0)))
+                    totaalBedrag = totaalBedrag.subtract(artikel.getPrijs());
+            }
+
+            KortingskaartHouder kortingskaartHouder = (KortingskaartHouder) klant;
+
+            //Bereken de korting
+            korting = korting.add(Geld.vermenigvuldigPrijsDoor(totaalBedrag, kortingskaartHouder.geefKortingsPercentage() * 0.01));
+
+            //Kijken of de korting te hoog is voor het type klant, zo ja pas de korting aan
+            if(kortingskaartHouder.heeftMaximum() && Geld.vergelijkPrijzen(korting, kortingskaartHouder.geefMaximum()) == Geld.prijsVergelijking.Groter)
+                korting = kortingskaartHouder.geefMaximum();
+        } else {
+            Iterator<Artikel> artikelen = dienblad.getArtikelenIterator();
+
+            while (artikelen.hasNext()) {
+                Artikel artikel = artikelen.next();
+                korting = korting.add(artikel.getKorting());
+            }
+        }
 
         return korting;
     }

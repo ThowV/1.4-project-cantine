@@ -42,6 +42,13 @@ public class Dienblad {
     }
 
     /**
+     * @return Geeft het aantal artikelen dat zich op het dienblad bevindt.
+     */
+    public int getAantalArtikelen(){
+        return artikelen.size();
+    }
+
+    /**
      * Methode om de klant terugtegeven wie dit dienblad gebruikt.
      *
      * @return De klant die dit dienblad gebruikt.

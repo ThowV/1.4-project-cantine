@@ -42,4 +42,45 @@ public class RandomGenerator {
 
         return temp;
     }
+
+    /**
+     * @param lengte de lengte van de boolean array die terug moet worden gegeven.
+     * @param minimaalProductenMetKorting het minimaal aantal producten dat zowiezo korting op zich heeft.
+     * @return geeft een random boolean array terug met het opgegeven lengte.
+     */
+    public static boolean[] getRandomBooleanArray(int lengte, int minimaalProductenMetKorting) {
+        if(minimaalProductenMetKorting > lengte)
+            throw new IllegalArgumentException("Het minimaalProductenMetKorting moet midner zijn dan de lengte");
+
+        boolean[] temp = new boolean[lengte];
+        for (int i = 0; i < lengte; i++) {
+            temp[i] = (i <= minimaalProductenMetKorting) || random.nextBoolean();
+        }
+
+        return shuffleBooleanArray(temp);
+    }
+
+    /**
+     * Fisher–Yates shuffle array function
+     * @param array the array to shuffle
+     */
+    private static boolean[] shuffleBooleanArray(boolean[] array)
+    {
+        boolean[] shuffledArray = array;
+
+        int index;
+        Random random = new Random();
+        for (int i = shuffledArray.length - 1; i > 0; i--)
+        {
+            index = random.nextInt(i + 1);
+            if (index != i)
+            {
+                shuffledArray[index] ^= shuffledArray[i];
+                shuffledArray[i] ^= shuffledArray[index];
+                shuffledArray[index] ^= shuffledArray[i];
+            }
+        }
+
+        return shuffledArray;
+    }
 }
