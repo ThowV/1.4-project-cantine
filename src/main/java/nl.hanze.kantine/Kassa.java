@@ -1,16 +1,22 @@
 package nl.hanze.kantine;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public class Kassa {
+
+    private EntityManager manager;
+
     private int aantalArtikelen;
     private BigDecimal hoeveelheidGeldInKassa;
 
     /**
      * Constructor
      */
-    public Kassa(KassaRij kassarij) {
+    public Kassa(EntityManager manager) {
+        this.manager = manager;
         hoeveelheidGeldInKassa = Geld.genereerPrijs(0);
     }
 
@@ -22,7 +28,7 @@ public class Kassa {
      */
     public void rekenAf(Dienblad dienblad, int dag) {
         Persoon klant = dienblad.getKlant();
-        Factuur factuur = new Factuur(dienblad, dag); //TIJDELIJKE DATUM VERANDER DIT!
+        Factuur factuur = new Factuur(dienblad, dag);
 
         BigDecimal totaalZonderKorting = factuur.getTotaal(); //De totale prijs van alle producten
         BigDecimal korting = factuur.getKorting(); //De totale korting over alle producten
@@ -30,18 +36,29 @@ public class Kassa {
 
         //Voeg het geld toe aan de kassa en geef output
         String output;
+        EntityTransaction transaction = null;
 
         try {
-            klant.getBetaalwijze().betaal(totaal);
+            transaction = manager.getTransaction();
+            transaction.begin(); //Begin een transactie
 
+            //De klant betaald het geld
+            klant.getBetaalwijze().betaal(totaal);
             //Voeg het geld toe aan het totale bedrag in de kassa
             hoeveelheidGeldInKassa = hoeveelheidGeldInKassa.add(totaal);
 
-            output = factuur.toString();
+            //Sla het factuur op als alles is gelukt
+            manager.persist(factuur);
+            //Commit de transactie
+            transaction.commit();
 
+            output = factuur.toString();
             aantalArtikelen += dienblad.getAantalArtikelen();
 
         } catch (TeWeinigGeldException | KredietLimietException exception) {
+            if(transaction != null) //Als de transactie faalt rol het terug
+                transaction.rollback();
+
             output = "\nBetaling van persoon " + klant.getVoornaam() + " is gefaald want " + exception.getMessage();
         }
 

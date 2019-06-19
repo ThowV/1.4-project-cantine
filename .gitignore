@@ -1,3 +1,6 @@
+# Json target file
+target/classes/collections/artikel.json
+
 # Compiled class file
 *.class
 
