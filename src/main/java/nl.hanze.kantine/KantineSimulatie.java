@@ -229,6 +229,11 @@ public class KantineSimulatie {
         Queries.PrintOmzetEnKortingPerFactuur(manager, 1);
         Queries.PrintHoogsteOmzetFacturen(manager);
 
+        Queries.GetTotaleOmzetEnKortingPerArtikel(manager, "Appel");
+        Queries.GetTotaleOmzetEnKortingPerArtikelPerDatum(manager, "Appel", new Datum(20, 06, 2019));
+        Queries.PrintPopulairsteArtikelen(manager);
+        Queries.PrintPopulairsteArtikelenQuaOmzet(manager);
+
         // stop de simulatie
         sluitSimulatie();
     }
