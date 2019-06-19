@@ -1,5 +1,7 @@
 package nl.hanze.kantine;
 
+import nl.hanze.kantine.markdown.*;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -56,12 +58,17 @@ public class KantineSimulatie {
     private static final double MIN_BEGINSALDO_PER_PERSOON = 0.0;
     private static final double MAX_BEGINSALDO_PER_PERSOON = 1000.0;
 
+    private MarkdownGenerator markdownGenerator;
+
+
     /**
      * Constructor
      *
      */
     public KantineSimulatie() {
         manager = ENTITY_MANAGER_FACTORY.createEntityManager();
+
+        markdownGenerator = new MarkdownGenerator();
 
         random = new Random();
 
@@ -100,11 +107,36 @@ public class KantineSimulatie {
         BigDecimal[] omzet = new BigDecimal[dagen];
         int[] aantal = new int[dagen];
 
+        int week = 0;
+        int dag = 0;
+
         // for lus voor dagen
         for(int i = 0; i < dagen; i++) {
+            // geeft de week als titel in markdown.
+            if(i % 7 == 0 || i == 0) {
+                week = i / 7;
+                markdownGenerator.add(MarkdownStringGenerator.generateTitle(new MarkdownString("Week: " + (week + 1)), TitleSize.H1));
+            }
+
+            // geeft de dag als titel in markdown.
+            dag = i + 1 - 7 * week;
+            markdownGenerator.add(MarkdownStringGenerator.generateTitle(new MarkdownString("Dag: " + dag), TitleSize.H2));
 
             // bedenk hoeveel personen vandaag binnen lopen
             int aantalpersonen = RandomGenerator.getRandomValue(MIN_PERSONEN_PER_DAG, MAX_PERSONEN_PER_DAG);
+            markdownGenerator.add(new MarkdownString("Aantal personen op de dag: " + aantalpersonen));
+
+            // start met het genereren van een table
+            String table = MarkdownStringGenerator.generateTableHead(
+                new MarkdownString[]{
+                    new MarkdownString("BSN"),
+                    new MarkdownString("Voornaam"),
+                    new MarkdownString("Achternaam"),
+                    new MarkdownString("Geboortedatum"),
+                    new MarkdownString("Geslacht"),
+                    new MarkdownString("Saldo")
+                }
+            );
 
             // laat de personen maar komen...
             for(int j = 0; j < aantalpersonen; j++) {
@@ -115,15 +147,27 @@ public class KantineSimulatie {
                 BigDecimal randomBeginSaldo = Geld.genereerPrijs(RandomGenerator.getRandomValue(MIN_BEGINSALDO_PER_PERSOON, MAX_BEGINSALDO_PER_PERSOON));
 
                 if(randomTypeGetal == 0)
-                    persoon = new KantineMedewerker("111222333", "Voornaam" + j, "Achternaam", new Datum(10, 9, 1999), 'm', randomBeginSaldo, j, true);
+                    persoon = new KantineMedewerker("111222333", "Voornaam" + j, "Achternaam", new Datum(4, 1, 2004), 'm', randomBeginSaldo, j, true);
                 else {
                     if(randomTypeGetal < 89)
-                        persoon = new Student("111222333", "Voornaam" + j, "Achternaam", new Datum(10, 9, 1999), 'm', randomBeginSaldo, j, "HBO-ICT");
+                        persoon = new Student("111222333", "Voornaam" + j, "Achternaam", new Datum(4, 1, 2004), 'm', randomBeginSaldo, j, "HBO-ICT");
                     else
-                        persoon = new Docent("111222333", "Voornaam" + j, "Achternaam", new Datum(10, 9, 1999), 'm', randomBeginSaldo, "ACVO", "ICT");
+                        persoon = new Docent("111222333", "Voornaam" + j, "Achternaam", new Datum(4, 1, 2004), 'm', randomBeginSaldo, "ACVO", "ICT");
                 }
 
                 System.out.println("Er komt iemand: " + persoon.toString());
+
+                //Voeg de persoon aan de markdown tabel toe
+                table += MarkdownStringGenerator.generateTableContent(
+                    new MarkdownString[]{
+                        new MarkdownString(persoon.getBurgerServiceNummer()),
+                        new MarkdownString(persoon.getVoornaam()),
+                        new MarkdownString(persoon.getAchternaam()),
+                        new MarkdownString(persoon.getGeboorteDatum()),
+                        new MarkdownString(persoon.getGeslacht()),
+                        new MarkdownString(persoon.getBeginSaldo().toString()),
+                    }
+                );
 
                 // maak persoon en dienblad aan, koppel ze
                 // en bedenk hoeveel artikelen worden gepakt
@@ -145,26 +189,125 @@ public class KantineSimulatie {
             // verwerk rij voor de kassa
             kantine.verwerkRijVoorKassa(i);
 
-            // toon dagtotalen (artikelen en geld in kassa)
-            System.out.println("Dag: " + (i + 1) + " - Artikelen: " + kantine.getKassa().getAantalArtikelen() + " - Geld: " + kantine.getKassa().getHoeveelheidGeldInKassa());
-
             omzet[i] = kantine.getKassa().getHoeveelheidGeldInKassa();
             aantal[i] = kantine.getKassa().getAantalArtikelen();
 
+            // toon dagtotalen (artikelen en geld in kassa)
+            System.out.println("Dag: " + (i + 1) + " - Artikelen: " + aantal[i] + " - Geld: " + omzet[i]);
+            // voeg de dagtotalen toe aan de markdown
+            markdownGenerator.add(MarkdownStringGenerator.generateTitle(new MarkdownString("Dagtotalen:"), TitleSize.H3));
+            markdownGenerator.add(new MarkdownString("Aantal artikelen: " + aantal[i]));
+            markdownGenerator.add(new MarkdownString("Hoeveelheid geld: " + omzet[i]));
+
             // reset de kassa voor de volgende dag
             kantine.getKassa().resetKassa();
+
+            //Voeg de tabel toe aan de markdown
+            markdownGenerator.add(MarkdownStringGenerator.generateTitle(new MarkdownString("Personen in de winkel:"), TitleSize.H3));
+            markdownGenerator.add(table);
         }
 
+        // print eindwaardoen
         Administratie.printGemiddeldAantal(aantal);
         Administratie.printGemiddeldeOmzet(omzet);
         Administratie.printDagOmzet(omzet);
 
+        // voeg eindwaardoen toe aan markdown
+        markdownGenerator.add(MarkdownStringGenerator.generateTitle(new MarkdownString("Eindwaarden:"), TitleSize.H2));
+        markdownGenerator.add(new MarkdownString("Gemiddelde aantal artikelen: " + Administratie.berekenGemiddeldAantal(aantal)));
+        markdownGenerator.add(new MarkdownString("Gemiddelde hoeveelheid omzet: " + Administratie.berekenGemiddeldeOmzet(omzet)));
+
+        String tabel = MarkdownStringGenerator.generateTableHead(
+            new MarkdownString[]{
+                new MarkdownString("Dag"),
+                new MarkdownString("Omzet")
+            }
+        );
+        BigDecimal[] dagOmzet = Administratie.berekenDagOmzet(omzet);
+        for (int i = 0; i < dagOmzet.length; i++){
+            tabel += MarkdownStringGenerator.generateTableContent(
+                new MarkdownString[]{
+                    new MarkdownString(Datum.getWeekDagAsString(i)),
+                    new MarkdownString(dagOmzet[i].toString())
+                }
+            );
+        }
+        markdownGenerator.add(tabel);
+
+        // stop de simulatie
         sluitSimulatie();
     }
 
     private void sluitSimulatie() {
         manager.close();
         ENTITY_MANAGER_FACTORY.close();
+
+        /*
+        //Header
+        markdownGenerator.add(MarkdownStringGenerator.generateTitle(new MarkdownString("test1"), TitleSize.H1));
+        markdownGenerator.add(MarkdownStringGenerator.generateHorizontalLine());
+        markdownGenerator.add(MarkdownStringGenerator.generateTitle(new MarkdownString("test1").toBold(), TitleSize.H2));
+        markdownGenerator.add(MarkdownStringGenerator.generateHorizontalLine());
+        markdownGenerator.add(MarkdownStringGenerator.generateTitle(new MarkdownString("test1").toItalic(), TitleSize.H2));
+        markdownGenerator.add(MarkdownStringGenerator.generateHorizontalLine());
+        markdownGenerator.add(MarkdownStringGenerator.generateTitle(new MarkdownString("test1").totBoldItalic(), TitleSize.H2));
+        markdownGenerator.add(MarkdownStringGenerator.generateHorizontalLine());
+        markdownGenerator.add(MarkdownStringGenerator.generateTitle(new MarkdownString("test1").toStrikeThrough(), TitleSize.H2));
+        markdownGenerator.add(MarkdownStringGenerator.generateHorizontalLine());
+
+        //List
+        markdownGenerator.add(MarkdownStringGenerator.generateList(
+            new MarkdownString[]{
+                new MarkdownString("test1").toBold(),
+                new MarkdownString("test1").toItalic(),
+                new MarkdownString("test1").setListIndent(ListIndent.I2),
+                new MarkdownString("test1").setListIndent(ListIndent.I3)
+            }
+        ));
+        markdownGenerator.add(MarkdownStringGenerator.generateHorizontalLine());
+
+        //Link
+        markdownGenerator.add(MarkdownStringGenerator.generateLink(new MarkdownString("test1"), "test2", new MarkdownString("test3")));
+        markdownGenerator.add(MarkdownStringGenerator.generateLink(new MarkdownString("test1"), "test2", new MarkdownString("")));
+        markdownGenerator.add(MarkdownStringGenerator.generateLink(new MarkdownString("test1"), "http://google.com", new MarkdownString("Google")));
+        markdownGenerator.add(MarkdownStringGenerator.generateHorizontalLine());
+
+        //Code
+        markdownGenerator.add(MarkdownStringGenerator.generateCodeBlock(
+            new MarkdownString[]{
+                new MarkdownString("line 1"),
+                new MarkdownString("line 2"),
+                new MarkdownString("line 3")
+            }
+        ));
+        markdownGenerator.add(MarkdownStringGenerator.generateHorizontalLine());
+
+        //Table
+        markdownGenerator.add(
+            MarkdownStringGenerator.generateTable(
+                new MarkdownString[] {
+                    new MarkdownString("title 1").toItalic(),
+                    new MarkdownString("title2").toBold()
+                },
+                new MarkdownString[][] {
+                    {
+                        new MarkdownString("R1 I1").toBold(),
+                        new MarkdownString("R1 I2").toItalic(),
+                    },
+                    {
+                        new MarkdownString("R2 I1").toBold(),
+                        new MarkdownString("R2 I2").toItalic(),
+                    }
+                }
+            )
+        );
+        markdownGenerator.add(MarkdownStringGenerator.generateHorizontalLine());
+
+        markdownGenerator.add(new MarkdownString("test").toBlockquote());
+        markdownGenerator.add(MarkdownStringGenerator.generateHorizontalLine());
+        */
+
+        markdownGenerator.generateMarkdown();
     }
 
     /**

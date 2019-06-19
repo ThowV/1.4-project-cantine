@@ -31,6 +31,8 @@ public class Persoon {
         this.achternaam = achternaam;
         this.geboorteDatum = geboorteDatum;
 
+        System.out.println(geboorteDatum.getDatumAsString());
+
         betaalwijze.setSaldo(beginSaldo);
     }
 
@@ -174,16 +176,10 @@ public class Persoon {
     }
 
     /**
-     * @return Een string met informatie over deze persoon.
+     * Geef het saldo dat deze persoon heeft
+     * @return Het bedrag in bigdecimal waar het persoon over beschikt
      */
-    public String toString() {
-        return "bsn: " + getBurgerServiceNummer()
-                + ", voornaam: " + getVoornaam()
-                + ", achternaam: " + getAchternaam()
-                + ", geboortedatum: " + getGeboorteDatum()
-                + ", geslacht: " + getGeslacht()
-                + ", saldo: " + betaalwijze.getSaldo();
-    }
+    public BigDecimal getBeginSaldo() { return betaalwijze.getSaldo(); }
 
     /**
      * @return Geeft de betaalwijze.
@@ -195,4 +191,16 @@ public class Persoon {
      * @param betaalwijze De manier waarop deze persoon moet betalen.
      */
     public void setBetaalwijze(Betaalwijze betaalwijze) { this.betaalwijze = betaalwijze; }
+
+    /**
+     * @return Een string met informatie over deze persoon.
+     */
+    public String toString() {
+        return "bsn: " + getBurgerServiceNummer()
+                + ", voornaam: " + getVoornaam()
+                + ", achternaam: " + getAchternaam()
+                + ", geboortedatum: " + getGeboorteDatum()
+                + ", geslacht: " + getGeslacht()
+                + ", saldo: " + betaalwijze.getSaldo();
+    }
 }
