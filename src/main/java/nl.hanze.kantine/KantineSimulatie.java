@@ -2,10 +2,9 @@ package nl.hanze.kantine;
 
 import nl.hanze.kantine.json.importer.JSONConverter;
 import nl.hanze.kantine.markdown.*;
+import nl.hanze.kantine.queries.Queries;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.*;
 
@@ -224,6 +223,11 @@ public class KantineSimulatie {
             );
         }
         markdownGenerator.add(tabel);
+
+        Queries.PrintTotaleOmzetEnKorting(manager);
+        Queries.PrintGemiddeldeOmzetEnKorting(manager);
+        Queries.PrintOmzetEnKortingPerFactuur(manager, 1);
+        Queries.PrintHoogsteOmzetFacturen(manager);
 
         // stop de simulatie
         sluitSimulatie();
