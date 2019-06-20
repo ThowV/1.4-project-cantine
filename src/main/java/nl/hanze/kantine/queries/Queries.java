@@ -8,7 +8,7 @@ import javax.persistence.Query;
 import java.math.BigDecimal;
 import java.util.List;
 
-public class Queries {
+public final class Queries {
     /**
      * Private Constructor
      */

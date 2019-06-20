@@ -3,7 +3,7 @@ package nl.hanze.kantine;
 import java.math.BigDecimal;
 import java.util.Arrays;
 
-public class Administratie {
+public final class Administratie {
 
     private static int DAYS_IN_WEEK = 7;
 

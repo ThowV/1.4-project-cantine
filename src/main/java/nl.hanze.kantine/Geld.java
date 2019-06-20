@@ -3,7 +3,10 @@ package nl.hanze.kantine;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
-public class Geld {
+public final class Geld {
+
+    private Geld(){}
+
     public enum prijsVergelijking { Kleiner, Groter, Gelijk };
 
     /**

@@ -7,7 +7,9 @@ import org.json.JSONObject;
 
 import java.math.BigDecimal;
 
-public class JSONConverter {
+public final class JSONConverter {
+    private JSONConverter() {}
+
     private static final String ARTIKEL_JSON_PATH = "/collections/artikel.json";
 
     public static Artikel[] GenerateArtikelen() {

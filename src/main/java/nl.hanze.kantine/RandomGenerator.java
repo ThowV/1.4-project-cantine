@@ -2,8 +2,10 @@ package nl.hanze.kantine;
 
 import java.util.Random;
 
-public class RandomGenerator {
+public final class RandomGenerator {
     public static Random random = new Random();
+
+    private RandomGenerator() {}
 
     /**
      * Methode om een random getal tussen min(incl)

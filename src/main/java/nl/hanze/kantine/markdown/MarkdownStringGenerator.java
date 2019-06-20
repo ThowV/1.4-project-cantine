@@ -1,6 +1,6 @@
 package nl.hanze.kantine.markdown;
 
-public class MarkdownStringGenerator {
+public final class MarkdownStringGenerator {
     private static final String TABLE_PIPE = "|";
     private static final String TABLE_DASHES = "---";
 
